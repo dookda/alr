@@ -1,0 +1,135 @@
+<ion-view view-title="เพิ่มการเพาะปลูกพืช">
+    <ion-content>
+        <div class="padding">รหัสแปลง :
+            <h3>{{pacelData.alrcode}}</h3>
+        </div>
+        <div class="list">
+            <div class="item item-input item-stacked-label">
+                <span class="input-label">ตำแแหน่งแปลง สปก.</span>
+                <p ng-bind="'lat: '+(mapData.lat | number:5)+ '  long: ' +(mapData.lng | number:5)"></p>
+                <p ng-bind="(parcel.tam_nam_t)+' '+(parcel.amp_nam_t)+' '+(parcel.prov_nam_t)"></p>
+            </div>
+            <div class="item item-input item-stacked-label">
+                <span class="input-label">ชื่อ-นามสกุล เจ้าของแปลง</span>
+                <input type="text" ng-model="data.owner" placeholder="{{parcel.active_owner}}">
+            </div>
+            <div class="item item-input item-stacked-label">
+                <span class="input-label">จำนวนที่ดิน สปก. ที่ถือครองทั้งหมด (ไร่)</span>
+                <input type="number" placeholder="{{parcel.spk_rai}}">
+            </div>
+            <div class="item">
+                <label class="toggle ">
+                    <input type="checkbox" ng-model="crop1" ng-init="crop1 = false">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label><span class="input-label">ปลูกพืชชนิดที่ 1</span>
+                <div ng-if="crop1">
+                    <ui class="list">
+                        <label class="item item-input item-select item-light">
+                            <div class="input-label"><span class="input-label">ประเภทการเพาะปลูก</span>
+                                <p>{{parcel.active_type}}</div>
+                            <select ng-model="data.ctype">
+                                <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
+                            </select>
+                        </label>
+                        <li class="item item-input item-stacked-label">
+                            <span class="input-label">เนื้อที่ปลูกพืช (ไร่)</span>
+                            <input type="number" ng-model="data.rai" placeholder="{{parcel.active_rai}}">
+                        </li>
+                        <label class="item item-input">
+                            <div class="input-label"><span class="input-label">วันที่เริ่มปลูก</span>
+                                <p>{{parcel.active_date | date : "dd.MM.y"}}</p>
+                            </div>
+                            <input type="date" ng-model="data.date">
+                        </label>
+                        <li class="item item-input item-stacked-label">
+                            <img ng-src="{{pathForImage(image)}}" style="width: 100%">
+                            <div class="button-bar">
+                                <button class="button icon-left ion-camera" ng-click="loadImage()">Take Photo</button>
+                                <button class="button icon-left ion-upload" ng-click="uploadImage()" ng-disabled="image === null">Upload</button>
+                            </div>
+                        </li>
+                    </ui>
+                </div>
+            </div>
+            <div class="list">
+                <div class="item">
+                    <label class="toggle ">
+                        <input type="checkbox" ng-model="crop2" ng-init="crop2 = false">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label><span class="input-label">ปลูกพืชชนิดที่ 2</span>
+                    <div ng-if="crop2">
+                        <ui class="list">
+                            <label class="item item-input item-select item-light">
+                                <div class="input-label"><span class="input-label">ประเภทการเพาะปลูก</span>
+                                    <p>{{parcel.active_type}}</div>
+                                <select ng-model="data.ctype2">
+                                    <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
+                                </select>
+                            </label>
+                            <li class="item item-input item-stacked-label">
+                                <span class="input-label">เนื้อที่ปลูกพืช (ไร่)</span>
+                                <input type="number" ng-model="data.rai2" placeholder="{{parcel.active_rai}}">
+                            </li>
+                            <label class="item item-input">
+                                <div class="input-label"><span class="input-label">วันที่เริ่มปลูก</span>
+                                    <p>{{parcel.active_date | date : "dd.MM.y"}}</p>
+                                </div>
+                                <input type="date" ng-model="data.date2">
+                            </label>
+                            <li class="item item-input item-stacked-label">
+                                <img ng-src="{{pathForImage(image)}}" style="width: 100%">
+                                <div class="button-bar">
+                                    <button class="button icon-left ion-camera" ng-click="loadImage()">Take Photo</button>
+                                    <button class="button icon-left ion-upload" ng-click="uploadImage()" ng-disabled="image === null">Upload</button>
+                                </div>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="toggle ">
+                        <input type="checkbox" ng-model="crop3" ng-init="crop3 = false">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label><span class="input-label">ปลูกพืชชนิดที่ 3</span>
+                    <div ng-if="crop3">
+                        <ui class="list">
+                            <label class="item item-input item-select item-light">
+                                <div class="input-label"><span class="input-label">ประเภทการเพาะปลูก</span>
+                                    <p>{{parcel.active_type}}</div>
+                                <select ng-model="data.ctype3">
+                                    <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
+                                </select>
+                            </label>
+                            <li class="item item-input item-stacked-label">
+                                <span class="input-label">เนื้อที่ปลูกพืช (ไร่)</span>
+                                <input type="number" ng-model="data.rai3" placeholder="{{parcel.active_rai}}">
+                            </li>
+                            <label class="item item-input">
+                                <div class="input-label"><span class="input-label">วันที่เริ่มปลูก</span>
+                                    <p>{{parcel.active_date | date : "dd.MM.y"}}</p>
+                                </div>
+                                <input type="date" ng-model="data.date3">
+                            </label>
+                            <li class="item item-input item-stacked-label">
+                                <img ng-src="{{pathForImage(image)}}" style="width: 100%">
+                                <div class="button-bar">
+                                    <button class="button icon-left ion-camera" ng-click="loadImage()">Take Photo</button>
+                                    <button class="button icon-left ion-upload" ng-click="uploadImage()" ng-disabled="image === null">Upload</button>
+                                </div>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage();showCWRchart(parcel)" ng-disabled="!isPersonChanged();"> อัพเดทข้อมูล </button>
+                <button class="button icon-right ion-chevron-right button-balanced" ng-click="showCWRchart(parcel);"> ดูปฏิทินเพาะปลูกพืช </button>
+            </div>
+    </ion-content>
+</ion-view>

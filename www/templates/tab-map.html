@@ -1,0 +1,72 @@
+<ion-view view-title="ข้อมูลแปลง ส.ป.ก. {{bbox}}">
+    <ion-content>
+    <!-- <input type="text" ng-model="bbox"> -->
+        <!-- <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                    <input type="text" g-places-autocomplete="" ng-model="location" placeholder="Insert address/location" />
+                </label>
+                <button ng-click="location = ''" class="btn btn-default" ng-show="location">x</button>
+
+                map-type-control-options="{style:'DROPDOWN_MENU'}"
+                style="height: 400px;"
+
+            </div> -->
+        <ng-map class="map" center="current" zoom="12"
+                pan-control="true"
+                map-type-control="true"                
+                
+                zoom-control-options="{style:'SMALL'}" >
+                <!-- <overlay-map-type object="imageMapType" init-method="push">
+                    </overlay-map-type> -->
+            <marker position="current" draggable=true on-dragend="getCurrentLocation()"></marker>
+        </ng-map>
+        <ion-list>
+
+            
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showDetail(data)">
+                <img ng-src="img/home.png">
+                <h2>ข้อมูลแปลง ส.ป.ก.</h2>
+                <p>{{data.lat | number:4}} , {{data.lng | number:4}}</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showCWR(data)">
+                <img ng-src="img/crop.png">
+                <h2>สมดุลน้ำรายแปลง</h2>
+                <p>กรอกปฏิทินเพาะปลูกพืชรายแปลง</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showGMP(data)">
+                <img ng-src="img/lamp.png">
+                <h2>GAP</h2>
+                <p>ประเมินความปลอดภัย แหล่งน้ำ และพื้นที่เพาะปลูก</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+
+     </label>
+<!-- 
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showGMP(data)">
+                <img ng-src="img/flower.png">
+                <h2>ดิน น้ำ พืช</h2>
+                <p>แผนที่ความเหมาะสมของดิน น้ำ ต่อการเพาะปลูก</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item> 
+                        -->
+<!--             <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showGMP(data)">
+    <img ng-src="img/climate.png">
+    <h2>เตือนภัยการเกษตร</h2>
+    <p>สถานการณ์ ความแห้งแล้ง น้ำท่วม โรคและแมลง</p>
+    <i class="icon ion-chevron-right icon-accessory"></i>
+</ion-item> -->
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+
+
+
+
+
+
+
+
+

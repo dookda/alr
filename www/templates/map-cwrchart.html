@@ -1,0 +1,29 @@
+<ion-view view-title="Chart CWR">
+    <ion-content>
+        <div class="padding">รหัสแปลง :
+            <h3>{{pacelData.alrcode}}</h3>
+        </div>
+        <div class="list card">
+            <div class="item">
+                กราฟแสดง {{chart1Series[0]}} - {{chart1Series[1]}}
+                <canvas class="chart chart-line" chart-data="chart1Data" chart-labels="chart1Labels" chart-series="chart1Series" chart-hover="false">
+                </canvas>
+            </div>
+            <div class="item">
+                กราฟแสดง {{chart2Series[0]}} ({{$scope.c3name[0]}}) - {{chart2Series[1]}}
+                <canvas class="chart chart-line" chart-data="chart2Data" chart-labels="chart2Labels" chart-series="chart2Series" chart-hover="false">
+                </canvas>
+            </div>
+            <!-- <div class="item item-body">
+            กราฟแสดง {{chart2Series[0]}} ({{pacelData.active_type}}) - {{chart2Series[1]}}
+            <canvas class="chart chart-line" 
+                 chart-data="data" 
+                 chart-labels="labels" 
+                 chart-series="series" 
+                 chart-hover="false">
+            </canvas>
+        </div> -->
+
+        </div>
+    </ion-content>
+</ion-view>

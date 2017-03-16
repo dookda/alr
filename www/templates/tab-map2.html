@@ -1,0 +1,16 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <ng-map default-style="true" center="current-location">
+      <marker position="current" centered="true" draggable="true"></marker>       
+  </ng-map>
+
+  <input type="hidden" ng-value="getLat(map.getCenter().lat())" />
+  <input type="hidden" ng-value="getLon(map.getCenter().lng())" />
+  <br>
+  Full Name: {{firstName + " " + map.getCenter()}}
+
+  <ul ng-repeat="user in users">
+      <li>{{user}}</li>
+    </ul>
+  </ion-content>
+</ion-view>

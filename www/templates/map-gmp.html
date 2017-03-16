@@ -1,0 +1,61 @@
+<ion-view view-title="เพิ่มข้อมูล GAP">
+    <ion-content>
+        <div class="padding">รหัสแปลง : 
+        <h3>{{parcel.alrcode}}</h3>
+        {{parcel.active_owner}}
+             
+            <ul class="list">
+                <li class="item item-input item-stacked-label">
+                    <span class="input-label">ตำแแหน่งแปลง สปก.</span>
+                    <p ng-bind="'lat: '+(mapData.lat | number:5)+ '  long: ' +(mapData.lng | number:5)">
+                    <p ng-bind="(parcel.tam_nam_t)+' '+(parcel.amp_nam_t)+' '+(parcel.prov_nam_t)">
+                </li>
+            </ul>
+            <h4>แบบประเมินแหล่งผลิตของเกษตรกรเบื้องตน</h4>
+        
+
+          <a href="#/tab/map-gmp-water" class="item item-icon-left item-icon-right">
+            <i class="icon ion-waterdrop"></i>
+            แหล่งน้ำ
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+          <a href="#/tab/map-gmp-land" class="item item-icon-left item-icon-right">
+          <i class="icon ion-flag"></i>
+            พื้นที่ปลูก
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+          <a href="#/tab/map-gmp-chem-use" class="item item-icon-left item-icon-right">
+          <i class="icon ion-beaker"></i>
+            การใช้วัตถุอันตรายทางการเกษตร
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+          <a href="#/tab/map-gmp-chem-stor" class="item item-icon-left item-icon-right">
+          <i class="icon ion-archive"></i>
+            การจัดเก็บวัตถุอันตรายทางการเกษตร
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+          <a href="#/tab/map-gmp-justify" class="item item-icon-left item-icon-right">
+          <i class="icon ion-leaf"></i>
+            การจัดการผลิตเพื่อให้ได้ผลผลิตที่มีคุณภาพ
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+          <a href="#/tab/map-gmp-record" class="item item-icon-left item-icon-right">
+          <i class="icon ion-clipboard"></i>
+            การบันทึกข้อมูลเอกสารต่างๆ
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+          <a href="#/tab/map-gmp-harvest" class="item item-icon-left item-icon-right">
+          <i class="icon ion-cube"></i>
+            การเก็บเกี่ยวและการปฏิบัติหลังการเก็บเกี่ยว
+            <i class="icon ion-chevron-right icon-accessory"></i>
+          </a>
+
+        </div>
+    </ion-content>
+</ion-view>
