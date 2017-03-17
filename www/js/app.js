@@ -27,11 +27,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, ChartJsProvider) {
   $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
+  $ionicConfigProvider.navBar.alignTitle('center');
 
   // chart.js
   ChartJsProvider.setOptions({
-      chartColors: ['#4286f4', '#f4a742'],
-      responsive: false
+      //chartColors: ['#4286f4', '#f4a742'],
+      responsive: true
     });
     // Configure all line charts
     ChartJsProvider.setOptions('line', {
@@ -52,16 +53,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   // Each tab has its own nav history stack:
-
-  .state('tab.news', {
-    url: '/news',
-    views: {
-      'tab-news': {
-        templateUrl: 'templates/tab-news.html',
-        controller: 'NewsController'
-      }
-    }
-  })
 
   .state('tab.map', {
     url: '/map',
@@ -86,7 +77,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .state('tab.map-cwr', {
       url: '/map-cwr',
       views: {
-        'tab-cwr': {
+        'tab-map': {
           templateUrl: 'templates/map-cwr.html',
           controller: 'CwrController'
         }
@@ -96,7 +87,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   .state('tab.map-cwrchart', {
       url: '/map-cwrchart',
       views: {
-        'tab-cwr': {
+        'tab-map': {
           templateUrl: 'templates/map-cwrchart.html',
           controller: 'CwrchartController'
         }
@@ -176,34 +167,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+  
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/map');

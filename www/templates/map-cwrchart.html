@@ -1,8 +1,15 @@
-<ion-view view-title="Chart CWR">
+<ion-view view-title="กราฟสมดุลน้ำ">
     <ion-content>
-        <div class="padding">รหัสแปลง :
-            <h3>{{pacelData.alrcode}}</h3>
-        </div>
+        <div class="padding">รหัสแปลง : 
+        <h3>{{parcel.alrcode}}</h3>
+        </div>      
+        <ul class="list">
+            <li class="item item-input item-stacked-label">
+                <span class="input-label">ตำแแหน่งแปลง ส.ป.ก.</span>
+                <p ng-bind="'lat: '+(mapData.lat | number:5)+ '  long: ' +(mapData.lng | number:5)">
+                <p ng-bind="(parcel.tam_nam_t)+' '+(parcel.amp_nam_t)+' '+(parcel.prov_nam_t)">
+            </li>
+        </ul>    
         <div class="list card">
             <div class="item">
                 กราฟแสดง {{chart1Series[0]}} - {{chart1Series[1]}}
@@ -10,7 +17,7 @@
                 </canvas>
             </div>
             <div class="item">
-                กราฟแสดง {{chart2Series[0]}} ({{$scope.c3name[0]}}) - {{chart2Series[1]}}
+                กราฟแสดง {{cwrType}} {{cwr2Type}} {{cwr3Type}}
                 <canvas class="chart chart-line" chart-data="chart2Data" chart-labels="chart2Labels" chart-series="chart2Series" chart-hover="false">
                 </canvas>
             </div>

@@ -1,7 +1,38 @@
 angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
-.controller('MapController', function($scope, NgMap, $http, 
-    $state, MapService, $timeout, $rootScope) {
+.controller('MapController', function($scope, NgMap, $state, MapService, $timeout) {
+
+    var vm = this;
+    NgMap.getMap().then(function(map) {
+        vm.map = map;
+        //var bounds = new google.maps.LatLngBounds(southWest,northEast);
+        var ne = vm.map.getBounds().getNorthEast();
+        var sw = vm.map.getBounds().getSouthWest();
+        var alrMap = 'http://map.nu.ac.th/gs-alr2/alr/ows?service=WFS&version=1.0.0';
+        alrMap += '&request=getfeature';
+        //alrMap += '&typename=alr:ln9p_tam';
+        alrMap += '&typename=alr:alr_parcels';
+        alrMap += '&cql_filter=BBOX(geom, ' + ne.lng() + ',' + ne.lat() + ',' + sw.lng() + ',' + sw.lat() + ')';
+        //testMap += '&cql_filter=INTERSECTS(the_geom,%20POINT%20(-74.817265%2040.5296504))'
+        alrMap += '&outputformat=application/json';
+        // var alrMap = 'http://map.nu.ac.th/gs-alr/alr/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=alr:ln9p_alr&maxFeatures=50&outputFormat=application%2Fjson';
+
+        vm.map.data.loadGeoJson(alrMap);
+
+        // Set the stroke width, and fill color for each polygon
+        vm.map.data.setStyle(function(feature) {
+                var SD_NAME = feature.getProperty('chkdata');
+                var color = "#ee7e28";
+                if (SD_NAME == 1) {
+                    color = "green";
+                }
+                return {
+                    fillColor: color,
+                    strokeWeight: 1
+                }
+            }
+        );
+    });
 
     $scope.loadLatlon = function() {
         navigator.geolocation.getCurrentPosition(function(pos) {
@@ -17,124 +48,74 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     };
     $scope.loadLatlon();
 
-    $scope.getCurrentLocation = function(event) {
-        $scope.data = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        };
-    };
-
-    $scope.loadJson = function() {
-        var vm = this;
-        NgMap.getMap().then(function(map) {
-            vm.map = map;
-            //var bounds = new google.maps.LatLngBounds(southWest,northEast);
-            var ne = vm.map.getBounds().getNorthEast();
-            var sw = vm.map.getBounds().getSouthWest();
-            var alrMap = 'http://map.nu.ac.th/gs-alr2/alr/ows?service=WFS&version=1.0.0';
-            alrMap += '&request=getfeature';            
-            //alrMap += '&typename=alr:ln9p_tam';
-            alrMap += '&typename=alr:alr_parcels';
-            alrMap += '&cql_filter=BBOX(geom, ' + ne.lng() + ',' + ne.lat() + ',' + sw.lng() + ',' + sw.lat() + ')';
-            //testMap += '&cql_filter=INTERSECTS(the_geom,%20POINT%20(-74.817265%2040.5296504))'
-            alrMap += '&outputformat=application/json';
-            // var alrMap = 'http://map.nu.ac.th/gs-alr/alr/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=alr:ln9p_alr&maxFeatures=50&outputFormat=application%2Fjson';
-
-            vm.map.data.loadGeoJson(alrMap);
-
-            // Set the stroke width, and fill color for each polygon
-            vm.map.data.setStyle(function(feature) {
-                    var SD_NAME = feature.getProperty('chkdata');
-                    var color = "#ee7e28";
-                    if (SD_NAME == 1) {
-                        color = "green";
-                    }
-                    return {
-                        fillColor: color,
-                        strokeWeight: 1
-                    }
-                }
-
-                /*{
-                    fillColor: 'green',
-                    strokeWeight: 1
-                }*/
-            );
-        });
-    };
-
-    $timeout(function() {
-         $scope.loadJson();
-    }, 200);
-
     $scope.loadParcel = function(lon, lat) {
         //console.log(da);
         MapService.loadParcel(lon, lat)
             .success(function(data) {
-                $scope.parcel = data.features[0].properties;
+                //$scope.parcel = data.features[0].properties;
                 $scope.alrcode = data.features[0].properties.alrcode;
-                MapService.selectedParcel = $scope.parcel;
+                MapService.selectedParcel = data.features[0].properties;
+
+                console.log($scope.alrcode);
             })
             .error(function(error) {
                 console.error("da error");
             })
     };
 
-    $scope.showDetail = function(mapData) {
-        MapService.selectedLocation = mapData;
-        $scope.latlon = MapService.selectedLocation;
-        $scope.loadParcel($scope.latlon.lng, $scope.latlon.lat);
+    $scope.getCurrentLocation = function(event) {
+        $scope.data = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+        };
+
+        MapService.selectedLatlon = $scope.data;
+        $scope.loadParcel($scope.data.lng, $scope.data.lat);
+    };
+
+    $scope.showDetail = function() {
         $timeout(function() {
             $state.go('tab.map-detail');
         }, 550);
-
-        //$state.go('tab.map-detail',{title: newsItem.title});
     };
 
-    $scope.showCWR = function(mapData) {
-        MapService.selectedLocation = mapData;
-        $scope.latlon = MapService.selectedLocation;
-        $scope.loadParcel($scope.latlon.lng, $scope.latlon.lat);
+    $scope.showCWR = function() {
         $timeout(function() {
             $state.go('tab.map-cwr');
-        }, 250);
+        }, 550);
     };
 
-    $scope.showGMP = function(mapData) {
-        MapService.selectedLocation = mapData;
-        $scope.latlon = MapService.selectedLocation;
-        $scope.loadParcel($scope.latlon.lng, $scope.latlon.lat);
+    $scope.showGMP = function() {
         $timeout(function() {
             $state.go('tab.map-gmp');
-        }, 250);
+        }, 550);
     };
 
 })
 
-.controller('MapdetailController', function($scope, $stateParams, MapService, $http) {
-    $scope.mapData = MapService.selectedLocation;
+.controller('MapdetailController', function($scope, MapService) {
+    $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
 
 
 })
 
-.controller('CwrController', function($scope, 
-    $stateParams, 
-    MapService, 
-    $http, 
-    $state, 
+.controller('CwrController', function($scope,
+    MapService,
+    $http,
+    $state,
     $timeout,
 
-    $cordovaCamera, 
-    $cordovaFile, 
-    $cordovaFileTransfer, 
-    $cordovaDevice, 
-    $ionicPopup, 
+    $cordovaCamera,
+    $cordovaFile,
+    $cordovaFileTransfer,
+    $cordovaDevice,
+    $ionicPopup,
     $cordovaActionSheet
-    ) {
+) {
 
-    $scope.mapData = MapService.selectedLocation;
+    $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
 
@@ -175,189 +156,207 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
         $http.post("http://map.nu.ac.th/alr-map/mobileInsert.php", $scope.data)
             .then(function(res) {
                 console.log(res)
-            })
-    };
+            });
 
-    $scope.sendMessage2 = function() {
-        $http({
-            url: "http://map.nu.ac.th/alr-map/mobileInsert.php?",
-            method: "POST",
-            data: {
-                'code': $scope.pacelData.alrcode,
-                'owner': $scope.data.owner,
-                'ctype': $scope.data.ctype,
-                'rai': $scope.data.rai,
-                'date': $scope.data.date,
-            }
-        }).success(function(response) {
-            console.log(response);
-        }).error(function(response) {
-            console.log(response);
-        });
+        $scope.data = {
+            code: $scope.pacelData.alrcode,
+            owner: "",
+            ctype: "",
+            rai: "",
+            date: ""
+        };
     };
 
 
     $scope.showCWRchart = function() {
-        //consol.log(newsItem);
-        //MapService.selectedParcel = pacelData;
-        //$state.go('tab.map-cwrchart');
-        //$state.go('tab.map-detail',{title: newsItem.title});
-        //MapService.selectedLocation = mapData;
-        //$scope.latlon = MapService.selectedLocation;
-        //$scope.loadParcel($scope.latlon.lng, $scope.latlon.lat);
         $timeout(function() {
             $state.go('tab.map-cwrchart');
-        }, 200);
+        }, 700);
     };
 
+    /// add camera
+    $scope.image = null;
 
-/// add camera
+    $scope.showAlert = function(title, msg) {
+        var alertPopup = $ionicPopup.alert({
+            title: title,
+            template: msg
+        });
+    };
 
-$scope.image = null;
-
-        $scope.showAlert = function(title, msg) {
-            var alertPopup = $ionicPopup.alert({
-                title: title,
-                template: msg
-            });
+    $scope.loadImage = function() {
+        var options = {
+            title: 'Select Image Source',
+            buttonLabels: ['Load from Library', 'Use Camera'],
+            addCancelButtonWithLabel: 'Cancel',
+            androidEnableCancelButton: true,
         };
-
-        $scope.loadImage = function() {
-            var options = {
-                title: 'Select Image Source',
-                buttonLabels: ['Load from Library', 'Use Camera'],
-                addCancelButtonWithLabel: 'Cancel',
-                androidEnableCancelButton: true,
-            };
-            $cordovaActionSheet.show(options).then(function(btnIndex) {
-                var type = null;
-                if (btnIndex === 1) {
-                    type = Camera.PictureSourceType.PHOTOLIBRARY;
-                } else if (btnIndex === 2) {
-                    type = Camera.PictureSourceType.CAMERA;
-                }
-                if (type !== null) {
-                    $scope.selectPicture(type);
-                }
-            });
-        };
-
-        // Take image with the camera or from library and store it inside the app folder
-        // Image will not be saved to users Library.
-        $scope.selectPicture = function(sourceType) {
-            var options = {
-                quality: 100,
-                destinationType: Camera.DestinationType.FILE_URI,
-                sourceType: sourceType,
-                saveToPhotoAlbum: false,
-                correctOrientation: true //rotation picture
-            };
-
-            $cordovaCamera.getPicture(options).then(function(imagePath) {
-                    // Grab the file name of the photo in the temporary directory
-                    var currentName = imagePath.replace(/^.*[\\\/]/, '');
-
-                    //Create a new name for the photo
-                    var d = new Date(),
-                        n = d.getTime(),
-                        newFileName = n + ".jpg";
-
-                    // If you are trying to load image from the gallery on Android we need special treatment!
-                    if ($cordovaDevice.getPlatform() == 'Android' && sourceType === Camera.PictureSourceType.PHOTOLIBRARY) {
-                        window.FilePath.resolveNativePath(imagePath, function(entry) {
-                            window.resolveLocalFileSystemURL(entry, success, fail);
-
-                            function fail(e) {
-                                console.error('Error: ', e);
-                            }
-
-                            function success(fileEntry) {
-                                var namePath = fileEntry.nativeURL.substr(0, fileEntry.nativeURL.lastIndexOf('/') + 1);
-                                // Only copy because of access rights
-                                $cordovaFile.copyFile(namePath, fileEntry.name, cordova.file.dataDirectory, newFileName).then(function(success) {
-                                    $scope.image = newFileName;
-                                }, function(error) {
-                                    $scope.showAlert('Error', error.exception);
-                                });
-                            };
-                        });
-                    } else {
-                        var namePath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-                        // Move the file to permanent storage
-                        $cordovaFile.moveFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(function(success) {
-                            $scope.image = newFileName;
-                        }, function(error) {
-                            $scope.showAlert('Error', error.exception);
-                        });
-                    }
-                },
-                function(err) {
-                    // Not always an error, maybe cancel was pressed...
-                })
-        };
-
-
-
-        // Returns the local path inside the app for an image
-        $scope.pathForImage = function(image) {
-            if (image === null) {
-                return '';
-            } else {
-                return cordova.file.dataDirectory + image;
+        $cordovaActionSheet.show(options).then(function(btnIndex) {
+            var type = null;
+            if (btnIndex === 1) {
+                type = Camera.PictureSourceType.PHOTOLIBRARY;
+            } else if (btnIndex === 2) {
+                type = Camera.PictureSourceType.CAMERA;
             }
+            if (type !== null) {
+                $scope.selectPicture(type);
+            }
+        });
+    };
+
+    // Take image with the camera or from library and store it inside the app folder
+    // Image will not be saved to users Library.
+    $scope.selectPicture = function(sourceType) {
+        var options = {
+            quality: 100,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: sourceType,
+            saveToPhotoAlbum: false,
+            correctOrientation: true //rotation picture
         };
 
-        $scope.uploadImage = function() {
-            // Destination URL
-            //var url = "http://202.29.52.232:8081/takeaphoto/upload.php";
-            var url = "http://map.nu.ac.th/alr-map/takeaphoto/upload.php?alrcode="+$scope.pacelData.alrcode;
+        $cordovaCamera.getPicture(options).then(function(imagePath) {
+                // Grab the file name of the photo in the temporary directory
+                var currentName = imagePath.replace(/^.*[\\\/]/, '');
 
-            // File for Upload
-            var targetPath = $scope.pathForImage($scope.image);
+                //Create a new name for the photo
+                var d = new Date(),
+                    n = d.getTime(),
+                    newFileName = n + ".jpg";
 
-            // File name only
-            var filename = $scope.image;;
+                // If you are trying to load image from the gallery on Android we need special treatment!
+                if ($cordovaDevice.getPlatform() == 'Android' && sourceType === Camera.PictureSourceType.PHOTOLIBRARY) {
+                    window.FilePath.resolveNativePath(imagePath, function(entry) {
+                        window.resolveLocalFileSystemURL(entry, success, fail);
 
-            var options = {
-                fileKey: "file",
-                fileName: filename,
-                chunkedMode: false,
-                mimeType: "multipart/form-data",
-                params: { 'fileName': filename }
-            };
+                        function fail(e) {
+                            console.error('Error: ', e);
+                        }
 
-            $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
-                $scope.showAlert('Success', 'Image upload finished.');
-            });
+                        function success(fileEntry) {
+                            var namePath = fileEntry.nativeURL.substr(0, fileEntry.nativeURL.lastIndexOf('/') + 1);
+                            // Only copy because of access rights
+                            $cordovaFile.copyFile(namePath, fileEntry.name, cordova.file.dataDirectory, newFileName).then(function(success) {
+                                $scope.image = newFileName;
+                            }, function(error) {
+                                $scope.showAlert('Error', error.exception);
+                            });
+                        };
+                    });
+                } else {
+                    var namePath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+                    // Move the file to permanent storage
+                    $cordovaFile.moveFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(function(success) {
+                        $scope.image = newFileName;
+                    }, function(error) {
+                        $scope.showAlert('Error', error.exception);
+                    });
+                }
+            },
+            function(err) {
+                // Not always an error, maybe cancel was pressed...
+            })
+    };
+
+    // Returns the local path inside the app for an image
+    $scope.pathForImage = function(image) {
+        if (image === null) {
+            return '';
+        } else {
+            return cordova.file.dataDirectory + image;
         }
+    };
 
-//end camera
+    $scope.uploadImage = function() {
+        // Destination URL
+        //var url = "http://202.29.52.232:8081/takeaphoto/upload.php";
+        var url = "http://map.nu.ac.th/alr-map/takeaphoto/upload.php?alrcode=" + $scope.pacelData.alrcode;
 
+        // File for Upload
+        var targetPath = $scope.pathForImage($scope.image);
+
+        // File name only
+        var filename = $scope.image;;
+
+        var options = {
+            fileKey: "file",
+            fileName: filename,
+            chunkedMode: false,
+            mimeType: "multipart/form-data",
+            params: { 'fileName': filename }
+        };
+
+        $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+            $scope.showAlert('Success', 'Image upload finished.');
+        });
+    }
 
 })
 
-.controller('CwrchartController', function($scope, $stateParams, MapService, ChartService, $http, $timeout) {
-    $scope.mapData = MapService.selectedLocation;
+.controller('CwrchartController', function($scope, $stateParams, MapService, ChartService, $timeout) {
+    $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
+    $scope.parcel = $scope.pacelData;
 
     $scope.tamcode = $scope.pacelData.tam_code;
+
+    $scope.rainNowArr = [];
+    $scope.rainNowLabel = [];
+
     $scope.rain30Arr = [];
     $scope.rain30Label = [];
+
     $scope.evap30Arr = [];
     $scope.evap30Label = [];
 
+    $scope.chart2Dat = [];
+    $scope.chart2Ser = [];
+
     $scope.loadMeteo = function(tamcode) {
+        // load rain now
+        ChartService.loadRainNow(tamcode)
+            .success(function(data) {
+                for (var prop in data[0]) {
+                    for (var i = 1; i <= 52; i++) {
+                        var w = 'w' + i;
+                        if (prop == w) {
+                            if (Number(data[0][prop]) >= 0) {
+                                $scope.rainNowArr.push((Number(data[0][prop])).toFixed(2));
+                                //console.log('ok');
+                            } else {
+                                $scope.rainNowArr.push(null);
+                                //console.log('null')
+                            }
+                        }
+                    }
+                }
+                $scope.chart2Dat.push($scope.rainNowArr);
+                $scope.chart2Ser.push('น้ำฝนปัจจุบัน');
+            })
+            .error(function(error) {
+                console.error("error");
+            });
+        // load rain 30y
         ChartService.loadRain30y(tamcode)
             .success(function(data) {
                 for (var prop in data[0]) {
                     for (var i = 1; i <= 52; i++) {
                         var w = 'w' + i;
                         if (prop == w) {
-                            $scope.rain30Label.push(prop);
-                            $scope.rain30Arr.push(Number(data[0][prop]));
+                            $scope.rain30Label.push(prop);                            
+
+                            if (Number(data[0][prop]) > 0) {
+                                $scope.rain30Arr.push((Number(data[0][prop])).toFixed(2));
+                                //console.log('ok');
+                            } else {
+                                $scope.rain30Arr.push(null);
+                                //console.log('null')
+                            }
                         }
                     }
                 }
+                $scope.chart2Dat.push($scope.rain30Arr);
+                $scope.chart2Ser.push('น้ำฝนเฉลี่ย30ปี');
             })
             .error(function(error) {
                 console.error("error");
@@ -369,33 +368,45 @@ $scope.image = null;
                     for (var i = 1; i <= 52; i++) {
                         var w = 'w' + i;
                         if (prop == w) {
-                            //$scope.evap30Label.push(prop);
-                            $scope.evap30Arr.push(Number(data[0][prop]));
+                            //$scope.evap30Label.push(prop);  
+                            if (Number(data[0][prop]) > 0) {
+                                $scope.evap30Arr.push((Number(data[0][prop])).toFixed(2));
+                                //console.log('ok');
+                            } else {
+                                $scope.evap30Arr.push(null);
+                                //console.log('null')
+                            }
                         }
                     }
                 }
+
+                $scope.chart2Dat.push($scope.evap30Arr);
+                $scope.chart2Ser.push('การระเหยเฉลี่ย30ปี');
             })
             .error(function(error) {
                 console.error("error");
-            });
+            });            
     };
-
 
     $scope.alrcode = $scope.pacelData.alrcode;
     $scope.cwrArr = [];
     $scope.cwr2Arr = [];
     $scope.cwr3Arr = [];
+
     $scope.loadCWR = function(alrcode) {
         ChartService.loadCWR(alrcode)
             .success(function(data) {
                 for (var prop in data[0]) {
                     for (var i = 1; i <= 52; i++) {
+
+                        $scope.cwrType = data[0].crop_type;
+
                         var w = 'w' + i;
                         if (prop == w) {
                             //$scope.cwrLabel.push(prop);
                             //$scope.cwrArr.push(Number(data[0][prop]));
                             if (Number(data[0][prop]) > 0) {
-                                $scope.cwrArr.push(Number(data[0][prop]));
+                                $scope.cwrArr.push((Number(data[0][prop])).toFixed(2));
                                 //console.log('ok');
                             } else {
                                 $scope.cwrArr.push(null);
@@ -404,6 +415,8 @@ $scope.image = null;
                         }
                     }
                 }
+                $scope.chart2Dat.push($scope.cwrArr);
+                $scope.chart2Ser.push($scope.cwrType);
             })
             .error(function(error) {
                 console.error("error");
@@ -414,12 +427,15 @@ $scope.image = null;
             .success(function(data) {
                 for (var prop in data[0]) {
                     for (var i = 1; i <= 52; i++) {
+
+                        $scope.cwr2Type = data[0].crop_type;
+
                         var w = 'w' + i;
                         if (prop == w) {
                             //$scope.cwrLabel.push(prop);
                             //$scope.cwrArr.push(Number(data[0][prop]));
                             if (Number(data[0][prop]) > 0) {
-                                $scope.cwr2Arr.push(Number(data[0][prop]));
+                                $scope.cwr2Arr.push((Number(data[0][prop])).toFixed(2));
                                 //console.log('ok');
                             } else {
                                 $scope.cwr2Arr.push(null);
@@ -428,6 +444,8 @@ $scope.image = null;
                         }
                     }
                 }
+                $scope.chart2Dat.push($scope.cwr2Arr);
+                $scope.chart2Ser.push($scope.cwr2Type);
             })
             .error(function(error) {
                 console.error("error");
@@ -436,15 +454,17 @@ $scope.image = null;
 
         ChartService.loadCWR3(alrcode)
             .success(function(data) {
-                $scope.c3name = data;
                 for (var prop in data[0]) {
                     for (var i = 1; i <= 52; i++) {
+
+                        //if(data[0].crop_type != null){
+                            $scope.cwr3Type = data[0].crop_type;
+                        //}
+
                         var w = 'w' + i;
                         if (prop == w) {
-                            //$scope.cwrLabel.push(prop);
-                            //$scope.cwrArr.push(Number(data[0][prop]));
                             if (Number(data[0][prop]) > 0) {
-                                $scope.cwr3Arr.push(Number(data[0][prop]));
+                                $scope.cwr3Arr.push((Number(data[0][prop])).toFixed(2));
                                 //console.log('ok');
                             } else {
                                 $scope.cwr3Arr.push(null);
@@ -453,6 +473,8 @@ $scope.image = null;
                         }
                     }
                 }
+                $scope.chart2Dat.push($scope.cwr3Arr);
+                $scope.chart2Ser.push($scope.cwr3Type);
             })
             .error(function(error) {
                 console.error("error");
@@ -460,30 +482,23 @@ $scope.image = null;
         // load evap
     };
 
-
-
-
+    $scope.loadCWR($scope.alrcode);
+    $scope.loadMeteo($scope.tamcode);
     //console.log($scope.cwr3Type);
     // chart 1
-    $scope.loadMeteo($scope.tamcode);
+    
     $scope.chart1Labels = $scope.rain30Label;
     $scope.chart1Series = ['ฝนเฉลี่ย 30ปี', 'ระเหยเฉลี่ย 30ปี'];
     $scope.chart1Data = [$scope.rain30Arr, $scope.evap30Arr];
 
     // chart 2
-    $scope.loadCWR($scope.alrcode);
+
     $scope.chart2Labels = $scope.rain30Label;
-    $scope.chart2Series = ['พืชชนิดที่ 1', 'พืชชนิดที่ 2', 'พืชชนิดที่ 3', 'ฝนเฉลี่ย 30ปี'];
-    $scope.chart2Data = [$scope.cwrArr, $scope.cwr2Arr, $scope.cwr3Arr, $scope.rain30Arr]
+    //$scope.chart2Series = ['พืชชนิดที่ 1', 'พืชชนิดที่ 2', 'พืชชนิดที่ 3', 'น้ำฝนปัจจุบัน', 'ฝนเฉลี่ย 30ปี'];
+    //$scope.chart2Data = [$scope.cwrArr, $scope.cwr2Arr, $scope.cwr3Arr, $scope.rainNowArr, $scope.rain30Arr]
+    $scope.chart2Data = $scope.chart2Dat;
+    $scope.chart2Series = $scope.chart2Ser;
 
-
-
-
-
-
-    /*[
-        [65, 59, 80, 81, 56, 55, 40]
-    ];*/
     $scope.onClick = function(points, evt) {
         console.log(points, evt);
     };
@@ -496,14 +511,6 @@ $scope.image = null;
         [18, 28, 50, 29, 46, 37, 40],
         [68, 88, 40, 69, 26, 37, 70]
     ];
-
-    // Simulate async data update
-    /*$timeout(function () {
-        $scope.data = [
-          [28, 48, 40, 19, 86, 27, 90],
-          [65, 59, 80, 81, 56, 55, 40]
-        ];
-      }, 3000);*/
 })
 
 .controller('GmpController', function($scope, $stateParams, MapService, QuestionService, $http) {
@@ -511,12 +518,6 @@ $scope.image = null;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
 
-
-    $scope.showCWRchart = function() {
-        $timeout(function() {
-            $state.go('tab.map-gmp-water');
-        }, 200);
-    };
 
 })
 
@@ -554,36 +555,6 @@ $scope.image = null;
 .controller('GmpJustifyController', function($scope, $stateParams, QuestionService) {
     $scope.qJustify = QuestionService.gmpJustify();
 
-})
-
-.controller('NewsController', function($scope, NewsService, $http) {
-    $http.get("group74.xml", {
-            transformResponse: function(cnv) {
-                // var x2js = new X2JS();
-                // var aftCnv = x2js.xml_str2json(cnv);
-                //  return aftCnv;
-            }
-        })
-        .success(function(response) {
-            $scope.news = response;
-            console.log(response);
-        });
-
-})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-        Chats.remove(chat);
-    };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-    $scope.settings = {
-        enableFriends: true
-    };
 });
+
+
