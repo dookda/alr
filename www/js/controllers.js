@@ -600,7 +600,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $scope.data = {alrcode: $scope.pacelData.alrcode}; 
 
     $scope.sendMessage = function(){        
-        var link = 'http://localhost/alr-map/mobileInsertOuestion.php'; 
+        var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php'; 
         //$http.post(link, {username : $scope.data.farmer_fname})
         $http.post(link, $scope.data)
         .then(function (res){
