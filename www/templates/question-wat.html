@@ -1,0 +1,35 @@
+<ion-view view-title="น้ำใช้ทำการเกษตร">
+    <ion-content>
+        <div class="padding">รหัสแปลง : 
+        <h3>{{parcel.alrcode}}</h3>
+        </div> 
+        <div class="padding">
+            <div class="list list-inset">
+                {{q[20].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.alr_wat" ng-value="q[20].ans1">{{q[20].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.alr_wat" ng-value="q[20].ans2">{{q[20].ans2}}</ion-radio>
+                </div>
+                {{q[21].q_desc}}
+                <label class="card item-input">
+                    <div class="row">
+                        <input type="number" ng-model="data.alr_wat_r" placeholder="ไร่">
+                        <input type="number" ng-model="data.alr_wat_n" placeholder="งาน">
+                        <input type="number" ng-model="data.alr_wat_w" placeholder="วา">
+                    </div>
+                </label>
+                {{q[24].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.alr_pit" placeholder="123">
+                </label>                
+                {{q[25].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.alr_pond" placeholder="123">
+                </label>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

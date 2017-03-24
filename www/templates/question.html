@@ -1,0 +1,53 @@
+<ion-view view-title="เพิ่มข้อมูล GAP">
+    <ion-content>
+        <div class="padding">รหัสแปลง :
+            <h3>{{parcel.alrcode}}</h3> {{parcel.active_owner}}
+            <ul class="list">
+                <li class="item item-input item-stacked-label">
+                    <span class="input-label">ตำแแหน่งแปลง สปก.</span>
+                    <p ng-bind="'lat: '+(mapData.lat | number:5)+ '  long: ' +(mapData.lng | number:5)">
+                        <p ng-bind="(parcel.tam_nam_t)+' '+(parcel.amp_nam_t)+' '+(parcel.prov_nam_t)">
+                </li>
+            </ul>
+            <a href="#/tab/quest-auth" class="item item-icon-left item-icon-right">
+                <i class="icon ion-flag"></i> ข้อมูลพื้นฐานทั่วไป
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <p></p>
+            <a href="#/tab/quest-info" class="item item-icon-left item-icon-right">
+                <i class="icon ion-social-buffer"></i> ข้อมูลพื้นฐานเกี่ยวข้อง
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <p></p>
+            <a href="#/tab/quest-cost" class="item item-icon-left item-icon-right">
+                <i class="icon ion-map"></i> ราคาที่ดิน
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <p></p>
+            <a href="#/tab/quest-wat" class="item item-icon-left item-icon-right">
+                <i class="icon ion-waterdrop"></i> น้ำใช้ทำการเกษตร
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>            
+            <p></p>
+            <a href="#/tab/quest-debt" class="item item-icon-left item-icon-right">
+                <i class="icon ion-cash"></i> รายได้และหนี้สิน
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <p></p>
+            <a href="#/tab/quest-agri" class="item item-icon-left item-icon-right">
+                <i class="icon ion-leaf"></i> ปลูกพืช
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>
+            <p></p>
+            <a href="#/tab/quest-fishery" class="item item-icon-left item-icon-right">
+                <i class="icon ion-android-boat"></i> เพาะเลี้ยงสัตว์น้ำ
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>  
+            <p></p>
+            <a href="#/tab/quest-livestock" class="item item-icon-left item-icon-right">
+                <i class="icon ion-ios-paw"></i> ปศุสัตว์
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </a>          
+        </div>
+    </ion-content>
+</ion-view>

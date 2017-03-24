@@ -1,0 +1,158 @@
+<ion-view view-title="เพาะเลี้ยงสัตว์น้ำ">
+    <ion-content>
+        <div class="padding">
+            <!-- rice -->
+            <li class="item item-toggle">
+                เพาะเลี้ยงสัตว์น้ำชนิดที่ 1
+                <label class="toggle">
+                    <input type="checkbox" ng-model="fishery1" ng-init="fishery1 = false">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div ng-if="fishery1">
+                <p>{{q[83].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="text" ng-model="data.f1_name" placeholder="">
+                </label>
+                <p>{{q[84].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_rai" placeholder="123">
+                </label>
+                <p>{{q[85].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.f1_time" placeholder="">
+                </label>
+                <p>{{q[86].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_count" placeholder="123">
+                </label>
+                <p>{{q[87].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_breed" placeholder="123">
+                </label>
+                <p>{{q[88].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_feed" placeholder="123">
+                </label>
+                <p>{{q[89].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_vac" placeholder="123">
+                </label>
+                <p>{{q[90].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_labor" placeholder="123">
+                </label>
+                <p>{{q[91].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_rent" placeholder="123">
+                </label>
+                <p>{{q[92].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_gas" placeholder="123">
+                </label>
+                <p>{{q[93].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_inc" placeholder="123">
+                </label>
+                <p>{{q[94].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f1_incp" placeholder="123">
+                </label>
+                <p>{{q[95].q_desc}}</p>
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.f1_ptyp" ng-value="q[95].ans1" name="f1_ptyp">{{q[95].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.f1_ptyp" ng-value="q[95].ans2" name="f1_ptyp">{{q[95].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.f1_ptyp" ng-value="q[95].ans3" name="f1_ptyp">{{q[95].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.f1_ptyp" ng-value="q[95].ans4" name="f1_ptyp">{{q[95].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.f1_ptyp" ng-value="q[95].ans5" name="f1_ptyp">{{q[95].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.f1_ptyp" ng-value="q[95].ans6" name="f1_ptyp">{{q[95].ans6}}</ion-radio>
+                </div>
+                {{q[96].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.f1_prom" ng-value="q[96].ans1" name="f1_prom">{{q[96].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.f1_prom" ng-value="q[96].ans2" name="f1_prom">{{q[96].ans2}}</ion-radio>
+                </div>
+            </div>
+
+            <li class="item item-toggle">
+                เพาะเลี้ยงสัตว์น้ำชนิดที่ 2
+                <label class="toggle">
+                    <input type="checkbox" ng-model="fishery2" ng-init="fishery2 = false">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div ng-if="fishery2">
+                <p>{{q[97].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="text" ng-model="data.f2_name" placeholder="">
+                </label>
+                <p>{{q[98].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_rai" placeholder="123">
+                </label>
+                <p>{{q[99].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.f2_time" placeholder="">
+                </label>
+                <p>{{q[100].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_count" placeholder="123">
+                </label>
+                <p>{{q[101].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_breed" placeholder="123">
+                </label>
+                <p>{{q[102].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_feed" placeholder="123">
+                </label>
+                <p>{{q[103].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_vac" placeholder="123">
+                </label>
+                <p>{{q[104].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_labor" placeholder="123">
+                </label>
+                <p>{{q[105].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_rent" placeholder="123">
+                </label>
+                <p>{{q[106].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_gas" placeholder="123">
+                </label>
+                <p>{{q[107].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_inc" placeholder="123">
+                </label>
+                <p>{{q[108].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.f2_incp" placeholder="123">
+                </label>
+                <p>{{q[109].q_desc}}</p>
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.f2_ptyp" ng-value="q[109].ans1" name="f2_ptyp">{{q[109].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.f2_ptyp" ng-value="q[109].ans2" name="f2_ptyp">{{q[109].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.f2_ptyp" ng-value="q[109].ans3" name="f2_ptyp">{{q[109].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.f2_ptyp" ng-value="q[109].ans4" name="f2_ptyp">{{q[109].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.f2_ptyp" ng-value="q[109].ans5" name="f2_ptyp">{{q[109].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.f2_ptyp" ng-value="q[109].ans6" name="f2_ptyp">{{q[109].ans6}}</ion-radio>
+                </div>
+                {{q[110].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.f2_prom" ng-value="q[110].ans1" name="f2_prom">{{q[110].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.f2_prom" ng-value="q[110].ans2" name="f2_prom">{{q[110].ans2}}</ion-radio>
+                </div>
+            </div>
+
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

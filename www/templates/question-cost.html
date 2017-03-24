@@ -1,0 +1,38 @@
+<ion-view view-title="ราคาที่ดิน">
+    <ion-content>
+        <div class="padding">รหัสแปลง : 
+        <h3>{{parcel.alrcode}}</h3>
+        </div> 
+        <div class="padding">
+            <div class="list list-inset">               
+                {{q[16].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.alr_sale" placeholder="123.00">
+                </label>               
+                {{q[17].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.other_sale" placeholder="123.00">
+                </label>               
+                {{q[18].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.alr_rent" placeholder="123.00">
+                </label>               
+                {{q[19].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.other_rent" placeholder="123.00">
+                </label>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
+<!--             <h6>สถานะการกรอกข้อมูล</h6>
+<progress id="progressbar" max="100" value="{{ progressval }}"> </progress>
+<div id="progressbarlabel">{{ progressval }} %</div>
+<div class="card">
+    <div class="item item-text-wrap">
+        Response: <b ng-bind="response"></b>
+    </div>
+</div> -->
+        </div>
+    </ion-content>
+</ion-view>

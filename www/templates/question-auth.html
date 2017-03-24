@@ -1,0 +1,58 @@
+<ion-view view-title="ข้อมูลพื้นฐานทั่วไป">
+    <ion-content>
+        <div class="padding">รหัสแปลง : 
+        <h3>{{parcel.alrcode}}</h3>
+        </div> 
+        <div class="padding">
+            <div class="list list-inset">
+<!--                 {{q[0].q_desc}}
+<label class="card item-input">
+    <input type="text" ng-model="data.alrcode" ng-value="pacelData">
+</label> -->
+                <label class="card item-input">
+                    <input type="text" ng-model="data.farmer_f" placeholder="ชื่อ">
+                </label>
+                <label class="card item-input">
+                    <input type="text" ng-model="data.farmer_s" placeholder="นามสกุล">
+                </label>
+                {{q[3].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.farmer_id" placeholder="1234567890">
+                </label>
+                {{q[4].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.alr_status" ng-value="q[4].ans1">{{q[4].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.alr_status" ng-value="q[4].ans2">{{q[4].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.alr_status" ng-value="q[4].ans3">{{q[4].ans3}}</ion-radio>
+                </div>
+                {{q[5].q_desc}}
+                <label class="card item-input">
+                    <div class="row">
+                        <input type="number" ng-model="data.alr_all_r" placeholder="ไร่">
+                        <input type="number" ng-model="data.alr_all_n" placeholder="งาน">
+                        <input type="number" ng-model="data.alr_all_w" placeholder="วา">
+                    </div>
+                </label>
+                {{q[8].q_desc}}
+                <label class="card item-input">
+                    <div class="row">
+                        <input type="number" ng-model="data.alr_house_r" placeholder="ไร่">
+                        <input type="number" ng-model="data.alr_house_n" placeholder="งาน">
+                        <input type="number" ng-model="data.alr_house_w" placeholder="วา">
+                    </div>
+                </label>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
+<!--             <h6>สถานะการกรอกข้อมูล</h6>
+<progress id="progressbar" max="100" value="{{ progressval }}"> </progress>
+<div id="progressbarlabel">{{ progressval }} %</div>
+<div class="card">
+    <div class="item item-text-wrap">
+        Response: <b ng-bind="response"></b>
+    </div>
+</div> -->
+        </div>
+    </ion-content>
+</ion-view>

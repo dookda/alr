@@ -1,20 +1,27 @@
-<ion-view view-title="แผนการปลูกพืช ส.ป.ก.">
+<ion-view view-title="Smart Farmer">
     <ion-content>
-        <ng-map class="map" center="current-location" zoom="12" map-type-control="true">
+        <ng-map class="map" center="current-location" zoom="11" map-type-control="true">
             <marker position="current-location" draggable=true on-dragend="getCurrentLocation()"></marker>
         </ng-map>
         <ion-list>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showCWR()">
+                <img ng-src="img/crop.png">
+                <h2>งบดุลน้ำรายแปลง</h2>
+                <p>ประเมินการขาดน้ำของพืชที่เพาะปลูก</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
             <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showDetail()">
                 <img ng-src="img/home.png">
                 <h2>ข้อมูลแปลง ส.ป.ก.</h2>
                 <!-- <p>{{data.lat | number:4}} , {{data.lng | number:4}} </p> -->
-                <p>เลขแปลง: {{alrcode}}</p>
+                <p>คุณสมบัติของแปลงที่ดิน</p>
+                <!-- <p>เลขแปลง: {{alrcode}}</p> -->
                 <i class="icon ion-chevron-right icon-accessory"></i>
             </ion-item>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showCWR()">
-                <img ng-src="img/crop.png">
-                <h2>สมดุลน้ำรายแปลง</h2>
-                <p>กรอกปฏิทินเพาะปลูกพืชรายแปลง</p>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showQuestion()">
+                <img ng-src="img/lamp.png">
+                <h2>กรอกข้อมูลรายแปลง</h2>
+                <p>บันทึกสถานภาพของแปลงและการใช้ที่ดิน</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>
             </ion-item>
             <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showGMP()">

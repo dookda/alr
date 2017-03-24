@@ -1,0 +1,93 @@
+<ion-view view-title="รายได้และหนี้สิน">
+    <ion-content>
+        <div class="padding">รหัสแปลง : 
+        <h3>{{parcel.alrcode}}</h3>
+        </div> 
+        <div class="padding">
+            <div class="list list-inset">
+                {{q[26].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.alr_income" ng-value="q[26].ans1" name="alr_income">{{q[26].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.alr_income" ng-value="q[26].ans2" name="alr_income">{{q[26].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.alr_income" ng-value="q[26].ans3" name="alr_income">{{q[26].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.alr_income" ng-value="q[26].ans4" name="alr_income">{{q[26].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.alr_income" ng-value="q[26].ans5" name="alr_income">{{q[26].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.alr_income" ng-value="q[26].ans6" name="alr_income">{{q[26].ans6}}</ion-radio>
+                </div>
+
+                {{q[27].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans1" name="alr_market">{{q[27].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans2" name="alr_market">{{q[27].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans3" name="alr_market">{{q[27].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans4" name="alr_market">{{q[27].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans5" name="alr_market">{{q[27].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans6" name="alr_market">{{q[27].ans6}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans7" name="alr_market">{{q[27].ans7}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans8" name="alr_market">{{q[27].ans8}}</ion-radio>
+                    <ion-radio ng-model="data.alr_market" ng-value="q[27].ans9" name="alr_market">{{q[27].ans9}}</ion-radio>
+                </div>
+                {{q[28].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.alr_baht" placeholder="123.00">
+                </label>
+
+                {{q[29].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.alr_cost" placeholder="123.00">
+                </label>
+
+
+                {{q[30].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.alr_debt" ng-value="q[30].ans1" name="alr_debt">{{q[26].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.alr_debt" ng-value="q[30].ans2" name="alr_debt">{{q[26].ans2}}</ion-radio>
+                </div>
+                
+                {{q[31].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.debt_type" ng-value="q[31].ans1" name="debt_type">{{q[31].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.debt_type" ng-value="q[31].ans2" name="debt_type">{{q[31].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.debt_type" ng-value="q[31].ans3" name="debt_type">{{q[31].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.debt_type" ng-value="q[31].ans4" name="debt_type">{{q[31].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.debt_type" ng-value="q[31].ans5" name="debt_type">{{q[31].ans5}}</ion-radio>
+                </div>
+
+                {{q[32].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans1"  name="debt_sourc">{{q[32].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans2"  name="debt_sourc">{{q[32].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans3"  name="debt_sourc">{{q[32].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans4"  name="debt_sourc">{{q[32].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans5"  name="debt_sourc">{{q[32].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans6"  name="debt_sourc">{{q[32].ans6}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans7"  name="debt_sourc">{{q[32].ans7}}</ion-radio>
+                    <ion-radio ng-model="data.debt_sourc" ng-value="q[32].ans8"  name="debt_sourc">{{q[32].ans8}}</ion-radio>
+                </div>
+
+                {{q[33].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.debt_cost" placeholder="123.00">
+                </label>
+
+
+                {{q[34].q_desc}}
+                <label class="card item-input">
+                    <input type="number" ng-model="data.debt_pay" placeholder="123.00">
+                </label>
+
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
+<!--             <h6>สถานะการกรอกข้อมูล</h6>
+<progress id="progressbar" max="100" value="{{ progressval }}"> </progress>
+<div id="progressbarlabel">{{ progressval }} %</div>
+<div class="card">
+    <div class="item item-text-wrap">
+        Response: <b ng-bind="response"></b>
+    </div>
+</div> -->
+        </div>
+    </ion-content>
+</ion-view>

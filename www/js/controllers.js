@@ -21,17 +21,16 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
         // Set the stroke width, and fill color for each polygon
         vm.map.data.setStyle(function(feature) {
-                var SD_NAME = feature.getProperty('chkdata');
-                var color = "#ee7e28";
-                if (SD_NAME == 1) {
-                    color = "green";
-                }
-                return {
-                    fillColor: color,
-                    strokeWeight: 1
-                }
+            var SD_NAME = feature.getProperty('chkdata');
+            var color = "#ee7e28";
+            if (SD_NAME == 1) {
+                color = "green";
             }
-        );
+            return {
+                fillColor: color,
+                strokeWeight: 1
+            }
+        });
     });
 
     $scope.loadLatlon = function() {
@@ -54,12 +53,20 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             .success(function(data) {
                 //$scope.parcel = data.features[0].properties;
                 $scope.alrcode = data.features[0].properties.alrcode;
-                MapService.selectedParcel = data.features[0].properties;
 
-                console.log($scope.alrcode);
+                if ($scope.alrcode != null) {
+                    console.log($scope.alrcode);
+
+                    MapService.selectedParcel = data.features[0].properties;
+                } else {
+                    console.log('wang')
+                }
+
+
+
             })
             .error(function(error) {
-                console.error("da error");
+                console.error("da dadada error");
             })
     };
 
@@ -91,13 +98,19 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
         }, 550);
     };
 
+    $scope.showQuestion = function() {
+        $timeout(function() {
+            $state.go('tab.quest');
+        }, 550);
+    };
+
+
 })
 
 .controller('MapdetailController', function($scope, MapService) {
     $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
-
 
 })
 
@@ -224,6 +237,8 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
                     n = d.getTime(),
                     newFileName = n + ".jpg";
 
+                // add img file   
+
                 // If you are trying to load image from the gallery on Android we need special treatment!
                 if ($cordovaDevice.getPlatform() == 'Android' && sourceType === Camera.PictureSourceType.PHOTOLIBRARY) {
                     window.FilePath.resolveNativePath(imagePath, function(entry) {
@@ -343,7 +358,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
                     for (var i = 1; i <= 52; i++) {
                         var w = 'w' + i;
                         if (prop == w) {
-                            $scope.rain30Label.push(prop);                            
+                            $scope.rain30Label.push(prop);
 
                             if (Number(data[0][prop]) > 0) {
                                 $scope.rain30Arr.push((Number(data[0][prop])).toFixed(2));
@@ -385,7 +400,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             })
             .error(function(error) {
                 console.error("error");
-            });            
+            });
     };
 
     $scope.alrcode = $scope.pacelData.alrcode;
@@ -458,7 +473,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
                     for (var i = 1; i <= 52; i++) {
 
                         //if(data[0].crop_type != null){
-                            $scope.cwr3Type = data[0].crop_type;
+                        $scope.cwr3Type = data[0].crop_type;
                         //}
 
                         var w = 'w' + i;
@@ -486,7 +501,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $scope.loadMeteo($scope.tamcode);
     //console.log($scope.cwr3Type);
     // chart 1
-    
+
     $scope.chart1Labels = $scope.rain30Label;
     $scope.chart1Series = ['ฝนเฉลี่ย 30ปี', 'ระเหยเฉลี่ย 30ปี'];
     $scope.chart1Data = [$scope.rain30Arr, $scope.evap30Arr];
@@ -555,6 +570,52 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 .controller('GmpJustifyController', function($scope, $stateParams, QuestionService) {
     $scope.qJustify = QuestionService.gmpJustify();
 
-});
+})
+
+.controller('questionController', function($scope, $stateParams, MapService) {
+    $scope.mapData = MapService.selectedLatlon;
+    $scope.pacelData = MapService.selectedParcel;
+    $scope.parcel = $scope.pacelData;
+})
 
 
+.controller('questionAuthController', function($scope, $stateParams, questService, MapService, $http) {
+    $scope.mapData = MapService.selectedLatlon;
+    $scope.pacelData = MapService.selectedParcel;
+    $scope.parcel = $scope.pacelData;
+
+    $scope.loadQuest = function() {
+        //console.log(da);
+        questService.loadQuest()
+            .success(function(data) {
+                //$scope.parcel = data.features[0].properties;
+                $scope.q = data;
+            })
+            .error(function(error) {
+                console.error("error");
+            })
+    };
+    $scope.loadQuest();
+
+    $scope.data = {alrcode: $scope.pacelData.alrcode}; 
+
+    $scope.sendMessage = function(){        
+        var link = 'http://localhost/alr-map/mobileInsertOuestion.php'; 
+        //$http.post(link, {username : $scope.data.farmer_fname})
+        $http.post(link, $scope.data)
+        .then(function (res){
+            $scope.response = res.data;
+
+            delete $scope.data;
+        });
+    };
+
+    var oriData = angular.copy($scope.data);
+    $scope.isPersonChanged = function() {
+        return !angular.equals($scope.data, oriData);
+    };
+
+    $scope.progressval = 10;
+})
+
+;

@@ -66,6 +66,18 @@ angular.module('starter.services', [])
   }
 })
 
+
+.service('questService', function($http){
+ return{
+    selectedLocation:{}, 
+    loadQuest: function(){
+        var quest ='http://map.nu.ac.th/alr-map/api/question';                    
+        return $http.get(quest);
+    }      
+  }
+})
+
+
 .factory('QuestionService', function() {
 
   var q_gmp_water = [{
@@ -175,6 +187,96 @@ angular.module('starter.services', [])
     id: 5,
     question: 'มีการคัดแยกผลผลิตที่มีศัตรูพืชออกไว้ต่างหาก'
   }];
+
+  var questAuth1 = [{
+    id: 0,
+    question: 'ลักษณะการถือครองที่ดินแปลงนี้'
+  },{
+    id: 1,
+    question: 'เป็นของตนเอง'
+    },{
+    id: 2,
+    question: 'เช่า (จ่ายค่าเช่าในรูปตัวเงิน/อื่นๆ)'
+    },{
+    id: 3,
+    question: 'ใช้ได้ฟรีไม่มีค่าเช่า'
+  }]
+
+  var questAuth2 = [{
+    id: 0,
+    question: 'ประเภทแหล่งน้ำที่ใช้ในแปลงนี้'
+  },{
+    id: 1,
+    question: 'น้ำผิวดิน'
+    },{
+    id: 2,
+    question: 'น้ำใต้ดิน'
+  }]
+
+  var questPro1 = [{
+    id: 0,
+    question: 'แปลงนี้ได้รับการส่งเสริมเรียนรู้จาก ส.ป.ก. การเป็นศูนย์เครือข่าย ศพก. ด้านใดบ้าง'
+  },{
+    id: 1,
+    question: 'ศูนย์เรียนรู้ด้านการเกษตร'
+    },{
+    id: 2,
+    question: 'การเพิ่มประสิทธิภาพการผลิตสินค้าต้นแบบ'
+  }]
+
+  var questPro2 = [{
+    id: 0,
+    question: 'แปลงนี้ทำการเกษตรยั่งยืนแบบใด'
+  },{
+    id: 1,
+    question: 'เกษตรอินทรีย์'
+    },{
+    id: 2,
+    question: 'เกษตรทฤษฎีใหม่'
+    },{
+    id: 3,
+    question: 'เกษตรผสมผสาน'
+    },{
+    id: 4,
+    question: 'เกษตรธรรมชาติ'
+    },{
+    id: 5,
+    question: 'อื่นๆ'
+  }]
+
+  var questPro2 = [{
+    id: 0,
+    question: 'แปลงนี้เป็นเกษตรต้นแบบแบบใด'
+  },{
+    id: 1,
+    question: 'เกษตรแม่นยำ'
+    },{
+    id: 2,
+    question: 'เกษตรอัจฉริยะ'
+    },{
+    id: 3,
+    question: 'เกษตรปราณีต'
+    },{
+    id: 4,
+    question: 'อื่นๆ'
+  }]
+
+  var questCost = [{
+    id: 0,
+    question: 'ราคาซื้อขายหรือเช่าที่ดินในละแวกแปลงนี้'
+  },{
+    id: 1,
+    question: 'ราคาขาย: ที่ดิน ส.ป.ก. (บาท/ปี)'
+    },{
+    id: 2,
+    question: 'ราคาขาย: ที่ดินเอกสารสิทธิ์อื่นๆ (บาท/ไร่/ปี)'
+    },{
+    id: 3,
+    question: 'ราคาเช่า: ที่ดิน ส.ป.ก. (บาท/ปี)'
+    },{
+    id: 4,
+    question: 'ราคาเช่า: ที่ดินเอกสารสิทธิ์อื่นๆ (บาท/ไร่/ปี)'
+  }]
 
   return {
       gmpWater: function() {

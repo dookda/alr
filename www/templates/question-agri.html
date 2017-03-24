@@ -1,0 +1,256 @@
+<ion-view view-title="ปลูกพืช">
+    <ion-content>
+        <div class="padding">
+            <!-- rice -->
+            <li class="item item-toggle">
+                ปลูกพืชชนิดที่ 1
+                <label class="toggle">
+                    <input type="checkbox" ng-model="crop1" ng-init="crop1 = false">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div ng-if="crop1">
+                <p>{{q[35].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="text" ng-model="data.c1_name" placeholder="">
+                </label>
+                <p>{{q[36].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_rai" placeholder="123">
+                </label>
+                <p>{{q[37].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.c1_grow" placeholder="">
+                </label>
+                <p>{{q[38].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.c1_har" placeholder="">
+                </label>
+                <p>{{q[39].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_yield" placeholder="123">
+                </label>
+                <p>{{q[40].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_seed" placeholder="123">
+                </label>
+                <p>{{q[41].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_fert" placeholder="123">
+                </label>
+                <p>{{q[42].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_chem" placeholder="123">
+                </label>
+                <p>{{q[43].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_labor" placeholder="123">
+                </label>
+                <p>{{q[44].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_rent" placeholder="123">
+                </label>
+                <p>{{q[45].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_gas" placeholder="123">
+                </label>
+                <p>{{q[46].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_inc" placeholder="123">
+                </label>
+                <p>{{q[47].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c1_incp" placeholder="123">
+                </label>
+                <p>{{q[48].q_desc}}</p>
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c1_sale" ng-value="q[48].ans1" name="c1_sale">{{q[48].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c1_sale" ng-value="q[48].ans2" name="c1_sale">{{q[48].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.c1_sale" ng-value="q[48].ans3" name="c1_sale">{{q[48].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.c1_sale" ng-value="q[48].ans4" name="c1_sale">{{q[48].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.c1_sale" ng-value="q[48].ans5" name="c1_sale">{{q[48].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.c1_sale" ng-value="q[48].ans6" name="c1_sale">{{q[48].ans6}}</ion-radio>
+                </div>
+                {{q[49].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c1_prom" ng-value="q[26].ans1" name="c1_prom">{{q[49].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c1_prom" ng-value="q[26].ans2" name="c1_prom">{{q[49].ans2}}</ion-radio>
+                </div>
+                {{q[50].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c1_orga" ng-value="q[26].ans1" name="c1_orga">{{q[50].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c1_orga" ng-value="q[26].ans2" name="c1_orga">{{q[50].ans2}}</ion-radio>
+                </div>
+            </div>
+            <li class="item item-toggle">
+                ปลูกพืชชนิดที่ 2
+                <label class="toggle">
+                    <input type="checkbox" ng-model="crop2" ng-init="crop2 = false">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div ng-if="crop2">
+                <p>{{q[51].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="text" ng-model="data.c2_name" placeholder="">
+                </label>
+                <p>{{q[52].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_rai" placeholder="123">
+                </label>
+                <p>{{q[53].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.c2_grow" placeholder="">
+                </label>
+                <p>{{q[54].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.c2_har" placeholder="">
+                </label>
+                <p>{{q[55].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_yield" placeholder="123">
+                </label>
+                <p>{{q[56].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_seed" placeholder="123">
+                </label>
+                <p>{{q[57].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_fert" placeholder="123">
+                </label>
+                <p>{{q[58].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_chem" placeholder="123">
+                </label>
+                <p>{{q[59].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_labor" placeholder="123">
+                </label>
+                <p>{{q[60].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_rent" placeholder="123">
+                </label>
+                <p>{{q[61].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_gas" placeholder="123">
+                </label>
+                <p>{{q[62].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_inc" placeholder="123">
+                </label>
+                <p>{{q[63].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c2_incp" placeholder="123">
+                </label>
+                <p>{{q[64].q_desc}}</p>
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c2_sale" ng-value="q[64].ans1" name="c2_sale">{{q[64].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c2_sale" ng-value="q[64].ans2" name="c2_sale">{{q[64].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.c2_sale" ng-value="q[64].ans3" name="c2_sale">{{q[64].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.c2_sale" ng-value="q[64].ans4" name="c2_sale">{{q[64].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.c2_sale" ng-value="q[64].ans5" name="c2_sale">{{q[64].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.c2_sale" ng-value="q[64].ans6" name="c2_sale">{{q[64].ans6}}</ion-radio>
+                </div>
+                {{q[65].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c2_prom" ng-value="q[65].ans1" name="c2_prom">{{q[65].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c2_prom" ng-value="q[65].ans2" name="c2_prom">{{q[65].ans2}}</ion-radio>
+                </div>
+                {{q[66].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c2_orga" ng-value="q[66].ans1" name="c2_orga">{{q[66].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c2_orga" ng-value="q[66].ans2" name="c2_orga">{{q[66].ans2}}</ion-radio>
+                </div>
+            </div>
+            <li class="item item-toggle">
+                ปลูกพืชชนิดที่ 3
+                <label class="toggle">
+                    <input type="checkbox" ng-model="crop3" ng-init="crop3 = false">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div ng-if="crop3">
+                <p>{{q[67].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="text" ng-model="data.c3_name" placeholder="">
+                </label>
+                <p>{{q[68].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_rai" placeholder="123">
+                </label>
+                <p>{{q[69].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.c3_grow" placeholder="">
+                </label>
+                <p>{{q[70].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.c3_har" placeholder="">
+                </label>
+                <p>{{q[71].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_yield" placeholder="123">
+                </label>
+                <p>{{q[72].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_seed" placeholder="123">
+                </label>
+                <p>{{q[73].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_fert" placeholder="123">
+                </label>
+                <p>{{q[74].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_chem" placeholder="123">
+                </label>
+                <p>{{q[75].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_labor" placeholder="123">
+                </label>
+                <p>{{q[76].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_rent" placeholder="123">
+                </label>
+                <p>{{q[77].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_gas" placeholder="123">
+                </label>
+                <p>{{q[78].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_inc" placeholder="123">
+                </label>
+                <p>{{q[79].q_desc}}</p>
+                <label class="card item-input">
+                    <input type="number" ng-model="data.c3_incp" placeholder="123">
+                </label>
+                <p>{{q[80].q_desc}}</p>
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c3_sale" ng-value="q[80].ans1" name="c3_sale">{{q[80].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c3_sale" ng-value="q[80].ans2" name="c3_sale">{{q[80].ans2}}</ion-radio>
+                    <ion-radio ng-model="data.c3_sale" ng-value="q[80].ans3" name="c3_sale">{{q[80].ans3}}</ion-radio>
+                    <ion-radio ng-model="data.c3_sale" ng-value="q[80].ans4" name="c3_sale">{{q[80].ans4}}</ion-radio>
+                    <ion-radio ng-model="data.c3_sale" ng-value="q[80].ans5" name="c3_sale">{{q[80].ans5}}</ion-radio>
+                    <ion-radio ng-model="data.c3_sale" ng-value="q[80].ans6" name="c3_sale">{{q[80].ans6}}</ion-radio>
+                </div>
+                {{q[81].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c3_prom" ng-value="q[81].ans1" name="c3_prom">{{q[81].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c3_prom" ng-value="q[81].ans2" name="c3_prom">{{q[81].ans2}}</ion-radio>
+                </div>
+                {{q[82].q_desc}}
+                <div class="card list-inset">
+                    <ion-radio ng-model="data.c3_orga" ng-value="q[82].ans1" name="c3_orga">{{q[82].ans1}}</ion-radio>
+                    <ion-radio ng-model="data.c3_orga" ng-value="q[82].ans2" name="c3_orga">{{q[82].ans2}}</ion-radio>
+                </div>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
