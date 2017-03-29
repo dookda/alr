@@ -1,37 +1,84 @@
 angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
-.controller('MapController', function($scope, NgMap, $state, MapService, $timeout) {
+.controller('MapController', function($scope, NgMap, $state, MapService, $timeout, $rootScope) {
 
     var vm = this;
     NgMap.getMap().then(function(map) {
         vm.map = map;
         //var bounds = new google.maps.LatLngBounds(southWest,northEast);
-        var ne = vm.map.getBounds().getNorthEast();
-        var sw = vm.map.getBounds().getSouthWest();
-        var alrMap = 'http://map.nu.ac.th/gs-alr2/alr/ows?service=WFS&version=1.0.0';
-        alrMap += '&request=getfeature';
+        //var ne = vm.map.getBounds().getNorthEast();
+        //var sw = vm.map.getBounds().getSouthWest();
+        //var alrMap = 'http://map.nu.ac.th/gs-alr2/alr/ows?service=WFS&version=1.0.0';
+        //alrMap += '&request=getfeature';
         //alrMap += '&typename=alr:ln9p_tam';
-        alrMap += '&typename=alr:alr_parcels';
-        alrMap += '&cql_filter=BBOX(geom, ' + ne.lng() + ',' + ne.lat() + ',' + sw.lng() + ',' + sw.lat() + ')';
+        //alrMap += '&typename=alr:alr_parcels';
+        //alrMap += '&cql_filter=BBOX(geom, ' + ne.lng() + ',' + ne.lat() + ',' + sw.lng() + ',' + sw.lat() + ')';
         //testMap += '&cql_filter=INTERSECTS(the_geom,%20POINT%20(-74.817265%2040.5296504))'
-        alrMap += '&outputformat=application/json';
+        //alrMap += '&outputformat=application/json';
         // var alrMap = 'http://map.nu.ac.th/gs-alr/alr/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=alr:ln9p_alr&maxFeatures=50&outputFormat=application%2Fjson';
 
-        vm.map.data.loadGeoJson(alrMap);
+        /*        vm.map.data.loadGeoJson(alrMap);
 
-        // Set the stroke width, and fill color for each polygon
-        vm.map.data.setStyle(function(feature) {
-            var SD_NAME = feature.getProperty('chkdata');
-            var color = "#ee7e28";
-            if (SD_NAME == 1) {
-                color = "green";
-            }
-            return {
-                fillColor: color,
-                strokeWeight: 1
-            }
-        });
+                // Set the stroke width, and fill color for each polygon
+                vm.map.data.setStyle(function(feature) {
+                    var SD_NAME = feature.getProperty('chkdata');
+                    var color = "#ee7e28";
+                    if (SD_NAME == 1) {
+                        color = "green";
+                    }
+                    return {
+                        fillColor: color,
+                        strokeWeight: 1
+                    }
+                });*/
     });
+
+    var alrlyr = new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) {
+            // Compose URL for overlay tile
+            //vm.map = map;
+
+            var s = Math.pow(2, zoom);
+            var twidth = 256;
+            var theight = 256;
+
+            //latlng bounds of the 4 corners of the google tile
+            //Note the coord passed in represents the top left hand (NW) corner of the tile.
+            var gBl = vm.map.getProjection().fromPointToLatLng(
+                new google.maps.Point(coord.x * twidth / s, (coord.y + 1) * theight / s)); // bottom left / SW
+            var gTr = vm.map.getProjection().fromPointToLatLng(
+                new google.maps.Point((coord.x + 1) * twidth / s, coord.y * theight / s)); // top right / NE
+
+            // Bounding box coords for tile in WMS pre-1.3 format (x,y)
+            var bbox = gBl.lng() + "," + gBl.lat() + "," + gTr.lng() + "," + gTr.lat();
+
+            //base WMS URL
+            var url = 'http://map.nu.ac.th/gs-alr2/alr/wms';
+
+
+            url += "?service=WMS"; //WMS service
+            url += "&version=1.1.0"; //WMS version 
+            url += "&request=GetMap"; //WMS operation
+            url += "&layers=alr:alr_parcel_query"; //WMS layers to draw
+            url += "&styles="; //use default style
+            url += "&format=image/png"; //image format
+            url += "&TRANSPARENT=TRUE"; //only draw areas where we have data
+            url += "&srs=EPSG:4326"; //projection WGS84
+            url += "&bbox=" + bbox; //set bounding box for tile
+            url += "&width=256"; //tile size used by google
+            url += "&height=256";
+            //url += "&tiled=true";
+            //console.log(url)
+            return url; //return WMS URL for the tile  
+        }, //getTileURL
+
+        tileSize: new google.maps.Size(256, 256),
+        opacity: 0.85,
+        isPng: true
+    });
+
+    $rootScope.imageMapType = alrlyr;
+
 
     $scope.loadLatlon = function() {
         navigator.geolocation.getCurrentPosition(function(pos) {
@@ -61,7 +108,6 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
                 } else {
                     console.log('wang')
                 }
-
 
 
             })
@@ -102,6 +148,12 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
         $timeout(function() {
             $state.go('tab.quest');
         }, 550);
+    };
+
+    $scope.showCWRchart = function() {
+        $timeout(function() {
+            $state.go('tab.map-cwrchart');
+        }, 700);
     };
 
 
@@ -528,7 +580,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     ];
 })
 
-.controller('GmpController', function($scope, $stateParams, MapService, QuestionService, $http) {
+.controller('GmpController', function($scope, $stateParams, MapService, $http) {
     $scope.mapData = MapService.selectedLocation;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
@@ -536,39 +588,43 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
 })
 
-.controller('GmpWaterController', function($scope, $stateParams, QuestionService) {
-    $scope.qWater = QuestionService.gmpWater();
+.controller('GmpWaterController', function($scope, $stateParams, MapService, questGapService) {
+    $scope.mapData = MapService.selectedLatlon;
+    $scope.pacelData = MapService.selectedParcel;
+    $scope.parcel = $scope.pacelData;
 
-})
+    $scope.loadQuest = function() {
+        //console.log(da);
+        questGapService.loadQuest()
+            .success(function(data) {
+                //$scope.parcel = data.features[0].properties;
+                $scope.q = data;
+            })
+            .error(function(error) {
+                console.error("error");
+            })
+    };
+    $scope.loadQuest();
 
-.controller('GmpLandController', function($scope, $stateParams, QuestionService) {
-    $scope.qLand = QuestionService.gmpLand();
+    $scope.data = { alrcode: $scope.pacelData.alrcode };
 
-})
+    $scope.sendMessage = function() {
+        var link = 'http://map.nu.ac.th/alr-map/mobileInsertGap.php';
+        //$http.post(link, {username : $scope.data.farmer_fname})
+        $http.post(link, $scope.data)
+            .then(function(res) {
+                $scope.response = res.data;
 
-.controller('GmpRecordController', function($scope, $stateParams, QuestionService) {
-    $scope.qRecord = QuestionService.gmpRecord();
+                delete $scope.data;
+            });
+    };
 
-})
+    var oriData = angular.copy($scope.data);
+    $scope.isPersonChanged = function() {
+        return !angular.equals($scope.data, oriData);
+    };
 
-.controller('GmpHarvestController', function($scope, $stateParams, QuestionService) {
-    $scope.qHarvest = QuestionService.gmpHarvest();
-
-})
-
-.controller('GmpChemUseController', function($scope, $stateParams, QuestionService) {
-    $scope.qChem_use = QuestionService.gmpChem_use();
-
-})
-
-.controller('GmpChemStorController', function($scope, $stateParams, QuestionService) {
-    //$scope. = QuestionService.();
-    $scope.qChem_stor = QuestionService.gmpChem_stor();
-
-})
-
-.controller('GmpJustifyController', function($scope, $stateParams, QuestionService) {
-    $scope.qJustify = QuestionService.gmpJustify();
+    $scope.progressval = 10;
 
 })
 
@@ -597,17 +653,17 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     };
     $scope.loadQuest();
 
-    $scope.data = {alrcode: $scope.pacelData.alrcode}; 
+    $scope.data = { alrcode: $scope.pacelData.alrcode };
 
-    $scope.sendMessage = function(){        
-        var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php'; 
+    $scope.sendMessage = function() {
+        var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php';
         //$http.post(link, {username : $scope.data.farmer_fname})
         $http.post(link, $scope.data)
-        .then(function (res){
-            $scope.response = res.data;
+            .then(function(res) {
+                $scope.response = res.data;
 
-            delete $scope.data;
-        });
+                delete $scope.data;
+            });
     };
 
     var oriData = angular.copy($scope.data);
@@ -616,6 +672,4 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     };
 
     $scope.progressval = 10;
-})
-
-;
+});

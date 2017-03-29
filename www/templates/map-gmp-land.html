@@ -1,17 +1,19 @@
-<ion-view view-title="เพิ่มข้อมูล GAP">
+<ion-view view-title="พื้นที่ปลูก">
     <ion-content>
         <div class="padding">
             แบบประเมินแหล่งผลิตของเกษตรกรเบื้องตน: พื้นที่ปลูก
-        </div>
-        <div class="card">
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qLand.q1">{{qLand[0].question}}</ion-checkbox>
+
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.crop_res1">{{q[1].gap_ans1}}</ion-checkbox>
             </div>
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qLand.q2">{{qLand[1].question}}</ion-checkbox>
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.crop_res2">{{q[1].gap_ans2}}</ion-checkbox>
             </div>
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qLand.q3">{{qLand[2].question}}</ion-checkbox>
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.crop_res3">{{q[1].gap_ans3}}</ion-checkbox>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
             </div>
         </div>
     </ion-content>

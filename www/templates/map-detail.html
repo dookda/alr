@@ -10,20 +10,16 @@
                 <p ng-bind="(parcel.tam_nam_t)+' '+(parcel.amp_nam_t)+' '+(parcel.prov_nam_t)">
             </li>
             <li class="item item-input item-stacked-label">
-                <span class="input-label">ชื่อ-นามสกุล เจ้าของแปลง</span>
-                <input type="text" placeholder="{{parcel.active_owner}}">
+                <span class="input-label">ชื่อเจ้าของแปลง</span><p>
+                {{parcel.farmer_f}} {{parcel.farmer_f}}
             </li>
             <li class="item item-input item-stacked-label">
-                <span class="input-label">จำนวนที่ดิน ส.ป.ก. ที่ถือครองทั้งหมด (ไร่)</span>
-                <input type="text" placeholder="{{parcel.spk_rai}}">
+                <span class="input-label">จำนวนที่ดิน ส.ป.ก. ที่ถือครองทั้งหมด (ไร่)</span><p>
+                {{parcel.alr_all_r}} ไร่ {{parcel.alr_all_n}} งาน {{parcel.alr_all_w}} วา
             </li>
             <li class="item item-input item-stacked-label">
-                <span class="input-label">ประเภทการใช้ประโยชน์ที่ดิน ส.ป.ก.</span>
-                <input type="text" placeholder="{{parcel.active_type}}">
-            </li>
-            <li class="item item-input item-stacked-label">
-                <span class="input-label">เนื้อที่ที่ใช้ประโยชน์จริง (ไร่)</span>
-                <input type="text" placeholder="{{parcel.active_rai}}">
+                <span class="input-label">การทำการเกษตรในปัจจุบัน</span><p>
+                {{parcel.c1_name}} {{parcel.c2_name}} {{parcel.c3_name}} {{parcel.f1_name}} {{parcel.l2_name}} {{parcel.c1_name}}
             </li>
             <!-- <li class="item item-input item-stacked-label"><span class="input-label">รูปภาพ</span><p>
             <img ng-src="img/marker.png"></li> -->

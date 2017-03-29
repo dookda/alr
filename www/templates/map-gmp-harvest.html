@@ -1,27 +1,31 @@
-<ion-view view-title="เพิ่มข้อมูล GAP">
+<ion-view view-title="การปฏิบัติหลังการเก็บเกี่ยว">
     <ion-content>
         <div class="padding">
+
             แบบประเมินแหล่งผลิตของเกษตรกรเบื้องตน: การเก็บเกี่ยวและการปฏิบัติหลังการเก็บเกี่ยว
         </div>
         <div class="card">
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qHarvest.q1">{{qHarvest[0].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.harv1">{{q[6].gap_ans1}}</ion-checkbox>
             </div>
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qHarvest.q2">{{qHarvest[1].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.harv2">{{q[6].gap_ans2}}</ion-checkbox>
             </div>
              <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qHarvest.q3">{{qHarvest[2].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.harv3">{{q[6].gap_ans3}}</ion-checkbox>
             </div>
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qHarvest.q4">{{qHarvest[3].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.harv4">{{q[6].gap_ans4}}</ion-checkbox>
             </div> 
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qHarvest.q5">{{qHarvest[4].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.harv5">{{q[6].gap_ans5}}</ion-checkbox>
             </div>
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qHarvest.q6">{{qHarvest[5].question}}</ion-checkbox>
-            </div>          
+                <ion-checkbox ng-model="data.harv6">{{q[6].gap_ans6}}</ion-checkbox>
+            </div>    
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>      
         </div>
     </ion-content>
 </ion-view>

@@ -118,7 +118,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-land.html',
-                    controller: 'GmpLandController'
+                    controller: 'GmpWaterController'
                 }
             }
         })
@@ -127,7 +127,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-record.html',
-                    controller: 'GmpRecordController'
+                    controller: 'GmpWaterController'
                 }
             }
         })
@@ -136,7 +136,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-harvest.html',
-                    controller: 'GmpHarvestController'
+                    controller: 'GmpWaterController'
                 }
             }
         })
@@ -145,7 +145,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-chem-use.html',
-                    controller: 'GmpChemUseController'
+                    controller: 'GmpWaterController'
                 }
             }
         })
@@ -154,7 +154,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-chem-stor.html',
-                    controller: 'GmpChemStorController'
+                    controller: 'GmpWaterController'
                 }
             }
         })
@@ -163,7 +163,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-justify.html',
-                    controller: 'GmpJustifyController'
+                    controller: 'GmpWaterController'
                 }
             }
         })
@@ -194,16 +194,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             'tab-map': {
                 templateUrl: 'templates/question-info.html',
                 controller: 'questionAuthController'
-            }
-        }
-    })
-
-    .state('tab.quest-income', {
-        url: '/quest-income',
-        views: {
-            'tab-map': {
-                templateUrl: 'templates/question-income.html',
-                controller: 'questionCostController'
             }
         }
     })

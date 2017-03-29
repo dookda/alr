@@ -1,21 +1,24 @@
-<ion-view view-title="เพิ่มข้อมูล GAP">
+<ion-view view-title="การจัดเก็บวัตถุอันตรายทางการเกษตร">
     <ion-content>
     <div class="padding">
-            แบบประเมินแหล่งผลิตของเกษตรกรเบื้องตน: การจัดเก็บวัตถุอันตรายทางการเกษตร
+            แบบประเมินแหล่งผลิตของเกษตรกรเบื้องตน: การบันทึกข้อมูลเอกสารต่างๆ
         </div>
         <div class="card">
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qRecord.q1">{{qRecord[0].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.record1">{{q[4].gap_ans1}}</ion-checkbox>
             </div>
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qRecord.q2">{{qRecord[1].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.record2">{{q[4].gap_ans2}}</ion-checkbox>
             </div>
              <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qRecord.q3">{{qRecord[2].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.record3">{{q[4].gap_ans3}}</ion-checkbox>
             </div>
             <div class="item item-text-wrap">
-                <ion-checkbox ng-model="qRecord.q4">{{qRecord[3].question}}</ion-checkbox>
+                <ion-checkbox ng-model="data.record4">{{q[4].gap_ans4}}</ion-checkbox>
             </div> 
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
+            </div>
 
         </div>
     </ion-content>

@@ -1,20 +1,21 @@
-<ion-view view-title="เพิ่มข้อมูล GAP">
+<ion-view view-title="แหล่งน้ำ">
     <ion-content>
         <div class="padding">
             แบบประเมินแหล่งผลิตของเกษตรกรเบื้องตน: แหล่งน้ำ
-        </div>
-        <div class="card">
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="aWater.q1">{{qWater[0].question}}</ion-checkbox>
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.wat_res1">{{q[0].gap_ans1}}</ion-checkbox>
             </div>
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="aWater.q2">{{qWater[1].question}}</ion-checkbox>
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.wat_res2">{{q[0].gap_ans2}}</ion-checkbox>
             </div>
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="aWater.q3">{{qWater[2].question}}</ion-checkbox>
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.wat_res3">{{q[0].gap_ans3}}</ion-checkbox>
             </div>
-            <div class="item item-text-wrap">
-                <ion-checkbox ng-model="aWater.q4">{{qWater[3].question}}</ion-checkbox>
+            <div class="card item-text-wrap">
+                <ion-checkbox ng-model="data.wat_res4">{{q[0].gap_ans4}}</ion-checkbox>
+            </div>
+            <div class="padding">
+                <button class="button icon-right button-calm" ng-click="sendMessage()" ng-disabled="!isPersonChanged();"> ส่งข้อมูล </button>
             </div>
         </div>
     </ion-content>
