@@ -1,6 +1,6 @@
 <ion-view view-title="Smart Farmer">
     <ion-content>
-        <ng-map class="map" center="[{{data.lat}}, {{data.lng}}]" zoom="11" map-type-control="true">
+        <ng-map class="map" center="[{{data.lat}}, {{data.lng}}]" zoom="12" map-type-control="true">
             <overlay-map-type object="imageMapType" init-method="push">
             <marker position="[{{data.lat}}, {{data.lng}}]" draggable=true on-dragend="getCurrentLocation()"></marker>
         </ng-map>
