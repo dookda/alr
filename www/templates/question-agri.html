@@ -14,7 +14,7 @@
             <div ng-if="crop1">
                 <p></p>
                     <label class="card item-input item-select item-light">
-                    <span class="input-label">ชนิดพืชที่ปลูก</span>
+                    <span class="input-label">ชนิดพืชที่ปลูก : </span>{{alrMobileAns.c1_name}}
                         <select ng-model="data.c1_name">
                             <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
                         </select>

@@ -9,11 +9,13 @@
 <label class="card item-input">
     <input type="text" ng-model="data.alrcode" ng-value="pacelData">
 </label> -->
+                ชื่อ
                 <label class="card item-input">
-                    <input type="text" ng-model="data.farmer_f" placeholder="ชื่อ">
+                    <input type="text" ng-model="data.farmer_f" placeholder="{{alrMobileAns.farmer_f}}">
                 </label>
+                นามสกุล
                 <label class="card item-input">
-                    <input type="text" ng-model="data.farmer_s" placeholder="นามสกุล">
+                    <input type="text" ng-model="data.farmer_s" placeholder="{{alrMobileAns.farmer_s}}">
                 </label>
                 {{q[3].q_desc}}
                 <label class="card item-input">

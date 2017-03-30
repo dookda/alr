@@ -109,7 +109,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-water.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -118,7 +118,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-land.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -127,7 +127,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-record.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -136,7 +136,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-harvest.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -145,7 +145,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-chem-use.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -154,7 +154,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-chem-stor.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -163,7 +163,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
             views: {
                 'tab-map': {
                     templateUrl: 'templates/map-gmp-justify.html',
-                    controller: 'GmpWaterController'
+                    controller: 'GmpQuestionController'
                 }
             }
         })
@@ -183,7 +183,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-auth.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -193,7 +193,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-info.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -203,7 +203,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-cost.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -213,7 +213,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-debt.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -223,7 +223,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-agri.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -233,7 +233,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-wat.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -243,7 +243,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-fishery.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })
@@ -253,7 +253,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         views: {
             'tab-map': {
                 templateUrl: 'templates/question-livestock.html',
-                controller: 'questionAuthController'
+                controller: 'questionMobileController'
             }
         }
     })

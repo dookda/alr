@@ -590,7 +590,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
 })
 
-.controller('GmpWaterController', function($scope, $stateParams, MapService, questGapService) {
+.controller('GmpQuestionController', function($scope, $stateParams, MapService, questGapService) {
     $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
@@ -637,7 +637,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 })
 
 
-.controller('questionAuthController', function($scope, $stateParams, questService, MapService, $http) {
+.controller('questionMobileController', function($scope, $stateParams, questService, MapService, $http) {
     $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
@@ -656,7 +656,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $scope.loadQuest();
 
     $scope.loadCWR = function() {
-        MapService.loadCroptype()
+        questService.loadCroptype()
             .success(function(data) {
                 $scope.alrCWR = data;
                 //console.log($scope.alrData[0].gid);            
@@ -667,8 +667,19 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     };
     $scope.loadCWR();
 
-    $scope.data = { alrcode: $scope.pacelData.alrcode };
+    $scope.loadMobileAns = function() {
+        questService.loadMobileAns()
+            .success(function(data) {
+                $scope.alrMobileAns = data;
+                //console.log($scope.alrData[0].gid);            
+            })
+            .error(function(error) {
+                console.error("error");
+            })
+    };
+    $scope.loadMobileAns($scope.pacelData.alrcode);
 
+    $scope.data = { alrcode: $scope.pacelData.alrcode };
     $scope.sendMessage = function() {
         var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php';
         //var link = 'http://localhost/alr-map/mobileInsertOuestion.php';

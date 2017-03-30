@@ -24,10 +24,6 @@ angular.module('starter.services', [])
               alrMap += '&cql_filter=INTERSECTS(geom,POINT('+long+'%20'+lat+'))';
               alrMap += '&outputformat=application/json';                    
       return $http.get(alrMap);
-    }, 
-    loadCroptype: function(){
-        var alrCWR ='http://map.nu.ac.th/alr-map/api/k';                    
-        return $http.get(alrCWR);
     }
 
   }
@@ -73,6 +69,14 @@ angular.module('starter.services', [])
     loadQuest: function(){
         var quest ='http://map.nu.ac.th/alr-map/api/question';                    
         return $http.get(quest);
+    }, 
+    loadCroptype: function(){
+        var alrCWR ='http://map.nu.ac.th/alr-map/api/k';                    
+        return $http.get(alrCWR);
+    },
+    loadMobileAns: function(alrcode){
+        var alrMobileAns ='http://map.nu.ac.th/alr-map/api/alrMobileAns/'+alrcode;                    
+        return $http.get(alrMobileAns);
     }      
   }
 })
