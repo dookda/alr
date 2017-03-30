@@ -168,10 +168,9 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
 .controller('CwrController', function($scope,
     MapService,
-    $http,
-    $state,
-    $timeout,
-
+    //$http,
+    //$state,
+    //$timeout,
     $cordovaCamera,
     $cordovaFile,
     $cordovaFileTransfer,
@@ -184,6 +183,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
 
+ /*
     $scope.data = {
         code: $scope.pacelData.alrcode,
         owner: "",
@@ -238,6 +238,8 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             $state.go('tab.map-cwrchart');
         }, 700);
     };
+*/
+
 
     /// add camera
     $scope.image = null;
@@ -652,6 +654,18 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             })
     };
     $scope.loadQuest();
+
+    $scope.loadCWR = function() {
+        MapService.loadCroptype()
+            .success(function(data) {
+                $scope.alrCWR = data;
+                //console.log($scope.alrData[0].gid);            
+            })
+            .error(function(error) {
+                console.error("error");
+            })
+    };
+    $scope.loadCWR();
 
     $scope.data = { alrcode: $scope.pacelData.alrcode };
 

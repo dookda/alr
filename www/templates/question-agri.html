@@ -12,10 +12,13 @@
                 </label>
             </li>
             <div ng-if="crop1">
-                <p>{{q[35].q_desc}}</p>
-                <label class="card item-input">
-                    <input type="text" ng-model="data.c1_name" placeholder="">
-                </label>
+                <p></p>
+                    <label class="card item-input item-select item-light">
+                    <span class="input-label">ชนิดพืชที่ปลูก</span>
+                        <select ng-model="data.c1_name">
+                            <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
+                        </select>
+                    </label>
                 <p>{{q[36].q_desc}}</p>
                 <label class="card item-input">
                     <input type="number" ng-model="data.c1_rai" placeholder="123">
@@ -94,17 +97,20 @@
                 </label>
             </li>
             <div ng-if="crop2">
-                <p>{{q[51].q_desc}}</p>
-                <label class="card item-input">
-                    <input type="text" ng-model="data.c2_name" placeholder="">
-                </label>
+                <p></p>
+                    <label class="card item-input item-select item-light">
+                    <span class="input-label">ชนิดพืชที่ปลูก</span>
+                        <select ng-model="data.c2_name" ng-required="required">
+                            <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
+                        </select>
+                    </label>
                 <p>{{q[52].q_desc}}</p>
                 <label class="card item-input">
                     <input type="number" ng-model="data.c2_rai" placeholder="123">
                 </label>
                 <p>{{q[53].q_desc}}</p>
                 <label class="card item-input">
-                    <input type="date" ng-model="data.c2_grow" placeholder="">
+                    <input type="date" ng-model="data.c2_grow" placeholder="" ng-required="required">
                 </label>
                 <p>{{q[54].q_desc}}</p>
                 <label class="card item-input">
@@ -176,10 +182,13 @@
                 </label>
             </li>
             <div ng-if="crop3">
-                <p>{{q[67].q_desc}}</p>
-                <label class="card item-input">
-                    <input type="text" ng-model="data.c3_name" placeholder="">
-                </label>
+                <p></p>
+                    <label class="card item-input item-select item-light">
+                    <span class="input-label">ชนิดพืชที่ปลูก</span>
+                        <select ng-model="data.c3_name">
+                            <option ng-repeat="cList in alrCWR">{{cList.crop_name}}</option>
+                        </select>
+                    </label>
                 <p>{{q[68].q_desc}}</p>
                 <label class="card item-input">
                     <input type="number" ng-model="data.c3_rai" placeholder="123">
