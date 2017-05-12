@@ -1,37 +1,112 @@
 angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
-.controller('MapController', function($scope, NgMap, $state, MapService, $timeout, $rootScope) {
+.controller('MapController', function($scope, NgMap, $state, MapService, PlaceService, $timeout, $rootScope) {
 
     var vm = this;
     NgMap.getMap().then(function(map) {
         vm.map = map;
-        //var bounds = new google.maps.LatLngBounds(southWest,northEast);
-        //var ne = vm.map.getBounds().getNorthEast();
-        //var sw = vm.map.getBounds().getSouthWest();
-        //var alrMap = 'http://map.nu.ac.th/gs-alr2/alr/ows?service=WFS&version=1.0.0';
-        //alrMap += '&request=getfeature';
-        //alrMap += '&typename=alr:ln9p_tam';
-        //alrMap += '&typename=alr:alr_parcels';
-        //alrMap += '&cql_filter=BBOX(geom, ' + ne.lng() + ',' + ne.lat() + ',' + sw.lng() + ',' + sw.lat() + ')';
-        //testMap += '&cql_filter=INTERSECTS(the_geom,%20POINT%20(-74.817265%2040.5296504))'
-        //alrMap += '&outputformat=application/json';
-        // var alrMap = 'http://map.nu.ac.th/gs-alr/alr/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=alr:ln9p_alr&maxFeatures=50&outputFormat=application%2Fjson';
-
-        /*        vm.map.data.loadGeoJson(alrMap);
-
-                // Set the stroke width, and fill color for each polygon
-                vm.map.data.setStyle(function(feature) {
-                    var SD_NAME = feature.getProperty('chkdata');
-                    var color = "#ee7e28";
-                    if (SD_NAME == 1) {
-                        color = "green";
-                    }
-                    return {
-                        fillColor: color,
-                        strokeWeight: 1
-                    }
-                });*/
     });
+
+    $scope.init = function() {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            //$scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            $scope.data = {
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude
+            };
+            //console.log($scope.data.lat + '-' + $scope.data.lng);
+        }, function(error) {
+            alert('Unable to get location: ' + error.message);
+        });
+    };
+    $scope.init();
+
+    $scope.getCurrentLocation = function(event) {
+        $scope.data = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+        };
+
+        //MapService.selectedLatlon = $scope.data;
+        $scope.loadParcel($scope.data.lng, $scope.data.lat);
+    };
+
+    //////// find by location   
+    $scope.bClick = function(num) {
+        $scope.var = num;
+    }
+
+    // get everything
+        $scope.dat = {
+        prov: '',
+        amp: '',
+        tam: '',
+        vill: ''
+    };
+    
+    $scope.getProv = function() {
+        PlaceService.getProv()
+            .then(function(response) {
+                $scope.province = response.data;
+            })
+    };
+    $scope.getProv();
+
+    $scope.getAmp = function() {
+        PlaceService.getAmp($scope.dat.prov)
+            .then(function(response) {
+                $scope.amphoe = response.data;
+                $scope.tambon = [];
+                $scope.village = [];
+            });
+        $scope.findLocation("province", $scope.dat.prov);        
+    };
+
+    $scope.getTam = function() {
+        PlaceService.getTam($scope.dat.amp)
+            .then(function(response) {
+                $scope.tambon = response.data;
+                $scope.village = [];
+            });
+        $scope.findLocation("amphoe", $scope.dat.amp);
+    };
+
+    $scope.getVill = function() {
+        PlaceService.getVill($scope.dat.tam)
+            .then(function(response) {
+                $scope.village = response.data;
+            })
+            $scope.findLocation("tambon", $scope.dat.tam);
+    };
+
+    $scope.getVillLocation = function(){        
+            $scope.findLocation("village", $scope.dat.vill);
+    }
+    
+    $scope.findLocation = function(xplace, xcode){
+        PlaceService.getLocation(xplace, xcode)
+            .then(function(response) {
+                $scope.data = {
+                        lat: response.data[0].c_y,
+                        lng: response.data[0].c_x
+                    };                    
+            })
+       // $scope.init();
+    }
+   
+   //////// find by rawang
+   $scope.findRawang = function(xplang, xrawang){
+        PlaceService.getRawang(xplang, xrawang)
+            .then(function(response) {
+                $scope.data = {
+                        lat: response.data[0].c_y,
+                        lng: response.data[0].c_x
+                    };  
+                 console.log(response.data[0].c_x);                  
+            })
+      
+   }
+
 
     var alrlyr = new google.maps.ImageMapType({
         getTileUrl: function(coord, zoom) {
@@ -79,21 +154,6 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
     $rootScope.imageMapType = alrlyr;
 
-
-    $scope.loadLatlon = function() {
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            //$scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-            $scope.data = {
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude
-            };
-            //console.log($scope.data.lat + '-' + $scope.data.lng);
-        }, function(error) {
-            alert('Unable to get location: ' + error.message);
-        });
-    };
-    $scope.loadLatlon();
-
     $scope.loadParcel = function(lon, lat) {
         //console.log(da);
         MapService.loadParcel(lon, lat)
@@ -109,21 +169,10 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
                     console.log('wang')
                 }
 
-
             })
             .error(function(error) {
-                console.error("da dadada error");
+                console.error("yahoooo error");
             })
-    };
-
-    $scope.getCurrentLocation = function(event) {
-        $scope.data = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        };
-
-        MapService.selectedLatlon = $scope.data;
-        $scope.loadParcel($scope.data.lng, $scope.data.lat);
     };
 
     $scope.showDetail = function() {

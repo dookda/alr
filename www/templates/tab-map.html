@@ -1,17 +1,76 @@
 <ion-view view-title="Smart Farmer">
     <ion-content>
-        <ng-map class="map" center="[{{data.lat}}, {{data.lng}}]" zoom="12" map-type-control="true">
+        <ng-map class="map" center="[{{data.lat}}, {{data.lng}}]" zoom="14" map-type-control="true">
             <overlay-map-type object="imageMapType" init-method="push">
-            <marker position="[{{data.lat}}, {{data.lng}}]" draggable=true on-dragend="getCurrentLocation()"></marker>
+                <marker position="[{{data.lat}}, {{data.lng}}]" draggable=true on-dragend="getCurrentLocation()"></marker>
         </ng-map>
-        <div class="row">
-            <div class="col">
-                <label>ละติจูด: <input type="number" ng-model="data.lat"/></label>
+
+        <div class="button-bar">
+            <a class="button" ng-click="bClick(1); byAdd=1; byXY=0; byParcel=0" ng-class="{'button-positive':var==1}">
+                <h5>ค้นหาจาก<p>ที่อยู่</h5>
+            </a>
+            <a class="button" ng-click="bClick(2); byAdd=0; byXY=1; byParcel=0" ng-class="{'button-positive':var==2}">
+                <h5>ค้นหาจาก<p>ค่าพิกัด</h5>
+            </a>
+            <a class="button" ng-click="bClick(3); byAdd=0; byXY=0; byParcel=1" ng-class="{'button-positive':var==3}">
+                <h5>ค้นหาจาก<p>เลขแปลง</h5>
+            </a>
+        </div>
+
+        <div ng-if="byAdd">
+            <div class="row">
+                <div class="col">
+                    <label>จังหวัด: </label>
+                    <select class="item item-input item-select" ng-model="dat.prov" ng-options="p.prov_code as p.prov_nam_t for p in province" ng-change="getAmp();"></select>
+                </div>
+                <div class="col">
+                    <label>อำเภอ: </label>
+                    <select class="item item-input item-select" ng-model="dat.amp" ng-options="a.amp_code as a.amp_nam_t for a in amphoe" ng-change="getTam();"></select>
+                </div>
             </div>
-            <div class="col">
-                <label>ลองจิจูด: <input type="number" ng-model="data.lng"/></label>                
+            <div class="row">
+                <div class="col">
+                    <label>ตำบล: </label>
+                    <select class="item item-input item-select" ng-model="dat.tam" ng-options="t.tam_code as t.tam_nam_t for t in tambon" ng-change="getVill();"></select>
+                </div>
+                <div class="col">
+                    <label>หมู่บ้าน: </label>
+                    <select class="item item-input item-select" ng-model="dat.vill" ng-options="v.vill_code as v.vill_nam_t for v in village" ng-change="getVillLocation();"></select>
+                </div>
             </div>
         </div>
+
+        <div class="row" ng-if="byXY">
+            <div class="col">
+                ละติจูด:
+                <label class="item-input-wrapper">
+                    <input class="item-input-wrapper" type="number" ng-model="data.lat" />
+                </label>
+            </div>
+            <div class="col">
+                ลองจิจูด:
+                <label class="item-input-wrapper">
+                    <input class="item-input-wrapper" type="number" ng-model="data.lng" />
+                </label>
+            </div>
+        </div>
+
+        <div class="row" ng-if="byParcel">
+            <div class="col">
+                เลขที่ดิน:
+                <label class="item-input-wrapper">
+                    <input class="item-input-wrapper" type="text" ng-model="dat.plang" ng-required="true"/>
+                </label>
+            </div>
+            <div class="col">
+                เลขระวาง:
+                <label class="item-input-wrapper">
+                    <input class="item-input-wrapper" type="text" ng-model="dat.rawang" ng-change="findRawang(dat.plang, dat.rawang)"/>
+                </label>
+            </div>
+        </div>
+
+
         <ion-list>
             <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showQuestion()">
                 <img ng-src="img/lamp.png">
