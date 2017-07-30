@@ -1,4 +1,8 @@
 {
   "name": "alr",
-  "app_id": "4a2536cb"
+  "app_id": "4a2536cb",
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*"
+  ]
 }
