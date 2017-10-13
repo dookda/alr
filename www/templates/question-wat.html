@@ -7,8 +7,9 @@
             <div class="list list-inset">
                 {{q[20].q_desc}}
                 <div class="card list-inset">
-                    <ion-radio ng-model="data.alr_wat" ng-value="q[20].ans1">{{q[20].ans1}}</ion-radio>
-                    <ion-radio ng-model="data.alr_wat" ng-value="q[20].ans2">{{q[20].ans2}}</ion-radio>
+                    <ion-checkbox ng-model="data.alr_wat_undr" ng-value="q[20].ans1">{{q[20].ans1}}</ion-checkbox>
+                    <ion-checkbox ng-model="data.alr_wat_surf" ng-value="q[20].ans2">{{q[20].ans2}}</ion-checkbox>
+                    <ion-checkbox ng-model="data.alr_wat_rain" ng-value="q[20].ans3">{{q[20].ans3}}</ion-checkbox>
                 </div>
                 {{q[21].q_desc}}
                 <label class="card item-input">

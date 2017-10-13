@@ -1,6 +1,17 @@
 angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
-.controller('MapController', function($scope, NgMap, $state, MapService, PlaceService, $timeout, $rootScope) {
+.controller('MapController', function($scope, NgMap, $state, MapService, PlaceService, $timeout, $rootScope,$http) {
+    //update data
+    $scope.updateData = function() {
+        //var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php';
+        var lnk = url+'/alr-map/mobile_query_cwr_now.php';
+        //$http.post(link, {username : $scope.data.farmer_fname})
+        $http.post(lnk)
+            .then(function(res) {
+                console.log(res.data);
+            });
+    };
+    $scope.updateData();
 
     var vm = this;
     NgMap.getMap().then(function(map) {
@@ -128,23 +139,21 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             var bbox = gBl.lng() + "," + gBl.lat() + "," + gTr.lng() + "," + gTr.lat();
 
             //base WMS URL
-            var url = 'http://map.nu.ac.th/gs-alr2/alr/wms';
-
-
-            url += "?service=WMS"; //WMS service
-            url += "&version=1.1.0"; //WMS version 
-            url += "&request=GetMap"; //WMS operation
-            url += "&layers=alr:alr_parcel_query"; //WMS layers to draw
-            url += "&styles="; //use default style
-            url += "&format=image/png"; //image format
-            url += "&TRANSPARENT=TRUE"; //only draw areas where we have data
-            url += "&srs=EPSG:4326"; //projection WGS84
-            url += "&bbox=" + bbox; //set bounding box for tile
-            url += "&width=256"; //tile size used by google
-            url += "&height=256";
+            var lnk =url+'/gs-alr2/alr/wms';
+            lnk += "?service=WMS"; //WMS service
+            lnk += "&version=1.1.0"; //WMS version 
+            lnk += "&request=GetMap"; //WMS operation
+            lnk += "&layers=alr:alr_parcel_query"; //WMS layers to draw
+            lnk += "&styles="; //use default style
+            lnk += "&format=image/png"; //image format
+            lnk += "&TRANSPARENT=TRUE"; //only draw areas where we have data
+            lnk += "&srs=EPSG:4326"; //projection WGS84
+            lnk += "&bbox=" + bbox; //set bounding box for tile
+            lnk += "&width=256"; //tile size used by google
+            lnk += "&height=256";
             //url += "&tiled=true";
             //console.log(url)
-            return url; //return WMS URL for the tile  
+            return lnk; //return WMS URL for the tile  
         }, //getTileURL
 
         tileSize: new google.maps.Size(256, 256),
@@ -204,15 +213,12 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             $state.go('tab.map-cwrchart');
         }, 700);
     };
-
-
 })
 
 .controller('MapdetailController', function($scope, MapService) {
     $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
-
 })
 
 .controller('CwrController', function($scope,
@@ -227,70 +233,11 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $ionicPopup,
     $cordovaActionSheet
 ) {
-
     $scope.mapData = MapService.selectedLatlon;
     $scope.pacelData = MapService.selectedParcel;
     $scope.parcel = $scope.pacelData;
 
- /*
-    $scope.data = {
-        code: $scope.pacelData.alrcode,
-        owner: "",
-        ctype: "",
-        rai: "",
-        date: ""
-    };
-
-    var oriData = angular.copy($scope.data);
-
-    $scope.resetForm = function() {
-        $scope.data = angular.copy(oriData);
-        $scope.dataForm.$setPristine();
-    };
-
-    $scope.isPersonChanged = function() {
-        return !angular.equals($scope.data, oriData);
-    };
-
-
-    $scope.loadCWR = function() {
-        MapService.loadCroptype()
-            .success(function(data) {
-                $scope.alrCWR = data;
-                //console.log($scope.alrData[0].gid);            
-            })
-            .error(function(error) {
-                console.error("error");
-            })
-    };
-    $scope.loadCWR();
-
-
-    $scope.sendMessage = function() {
-        $http.post("http://map.nu.ac.th/alr-map/mobileInsert.php", $scope.data)
-            .then(function(res) {
-                console.log(res)
-            });
-
-        $scope.data = {
-            code: $scope.pacelData.alrcode,
-            owner: "",
-            ctype: "",
-            rai: "",
-            date: ""
-        };
-    };
-
-
-    $scope.showCWRchart = function() {
-        $timeout(function() {
-            $state.go('tab.map-cwrchart');
-        }, 700);
-    };
-*/
-
-
-    /// add camera
+     /// add camera
     $scope.image = null;
 
     $scope.showAlert = function(title, msg) {
@@ -334,14 +281,10 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
         $cordovaCamera.getPicture(options).then(function(imagePath) {
                 // Grab the file name of the photo in the temporary directory
                 var currentName = imagePath.replace(/^.*[\\\/]/, '');
-
                 //Create a new name for the photo
                 var d = new Date(),
                     n = d.getTime(),
                     newFileName = n + ".jpg";
-
-                // add img file   
-
                 // If you are trying to load image from the gallery on Android we need special treatment!
                 if ($cordovaDevice.getPlatform() == 'Android' && sourceType === Camera.PictureSourceType.PHOTOLIBRARY) {
                     window.FilePath.resolveNativePath(imagePath, function(entry) {
@@ -388,7 +331,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $scope.uploadImage = function() {
         // Destination URL
         //var url = "http://202.29.52.232:8081/takeaphoto/upload.php";
-        var url = "http://map.nu.ac.th/alr-map/takeaphoto/upload.php?alrcode=" + $scope.pacelData.alrcode;
+        var lnk = url+"/alr-map/takeaphoto/upload.php?alrcode=" + $scope.pacelData.alrcode;
 
         // File for Upload
         var targetPath = $scope.pathForImage($scope.image);
@@ -404,7 +347,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
             params: { 'fileName': filename }
         };
 
-        $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+        $cordovaFileTransfer.upload(lnk, targetPath, options).then(function(result) {
             $scope.showAlert('Success', 'Image upload finished.');
         });
     }
@@ -660,9 +603,9 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
     $scope.data = { alrcode: $scope.pacelData.alrcode };
 
     $scope.sendMessage = function() {
-        var link = 'http://map.nu.ac.th/alr-map/mobileInsertGap.php';
+        var lnk = url+'/alr-map/mobileInsertGap.php';
         //$http.post(link, {username : $scope.data.farmer_fname})
-        $http.post(link, $scope.data)
+        $http.post(lnk, $scope.data)
             .then(function(res) {
                 $scope.response = res.data;
 
@@ -730,10 +673,10 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
     $scope.data = { alrcode: $scope.pacelData.alrcode };
     $scope.sendMessage = function() {
-        var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php';
-        //var link = 'http://localhost/alr-map/mobileInsertOuestion.php';
+        //var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php';
+        var lnk = url+'/alr-map/mobileInsertOuestion.php';
         //$http.post(link, {username : $scope.data.farmer_fname})
-        $http.post(link, $scope.data)
+        $http.post(lnk, $scope.data)
             .then(function(res) {
                 $scope.response = res.data;
 

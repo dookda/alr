@@ -9,18 +9,49 @@
 <label class="card item-input">
     <input type="text" ng-model="data.alrcode" ng-value="pacelData">
 </label> -->
+                <p>วัน/เดือน/ปี ที่ให้ข้อมูล</p>
+                <label class="card item-input">
+                    <input type="date" ng-model="data.rec_date" placeholder="">
+                </label>
+                คำนำหน้าชื่อ
+                <label class="card item-input item-select">
+                    <div class="input-label">
+                    คำนำหน้าชื่อ
+                    </div>
+                    <select ng-model="data.farmer_p">
+                    <option>นาย</option>
+                    <option selected>นาง</option>
+                    <option>นางสาว</option>
+                    </select>
+                </label> 
                 ชื่อ
                 <label class="card item-input">
                     <input type="text" ng-model="data.farmer_f" placeholder="{{alrMobileAns.farmer_f}}">
-                </label>
+                </label> 
                 นามสกุล
                 <label class="card item-input">
                     <input type="text" ng-model="data.farmer_s" placeholder="{{alrMobileAns.farmer_s}}">
-                </label>
+                </label> 
                 {{q[3].q_desc}}
                 <label class="card item-input">
-                    <input type="number" ng-model="data.farmer_id" placeholder="1234567890">
-                </label>
+                    <input type="number" ng-model="data.farmer_id" placeholder="12345678">
+                </label> 
+                ที่ดินทำเกษตรทั้งหมด(ไร่)
+                <label class="card item-input">
+                    <input type="number" ng-model="data.farm_area" placeholder="ไร่">
+                </label> 
+                แปลงที่ดินเอกสิทธิ์ ส.ป.ก.(ไร่)
+                <label class="card item-input">
+                    <input type="number" ng-model="data.farm_alr" placeholder="ไร่">
+                </label> 
+                แปลงที่ดินเอกสิทธิ์อื่นๆ(ไร่)
+                <label class="card item-input">
+                    <input type="number" ng-model="data.farm_other" placeholder="ไร่">
+                </label> 
+                แปลงที่ดินที่ไม่มีเอกสิทธิ์(ไร่)
+                <label class="card item-input">
+                    <input type="number" ng-model="data.farm_none" placeholder="ไร่">
+                </label> 
                 {{q[4].q_desc}}
                 <div class="card list-inset">
                     <ion-radio ng-model="data.alr_status" ng-value="q[4].ans1">{{q[4].ans1}}</ion-radio>
@@ -34,7 +65,7 @@
                         <input type="number" ng-model="data.alr_all_n" placeholder="งาน">
                         <input type="number" ng-model="data.alr_all_w" placeholder="วา">
                     </div>
-                </label>
+                </label> 
                 {{q[8].q_desc}}
                 <label class="card item-input">
                     <div class="row">
@@ -59,8 +90,8 @@
                     </li>
                 </ui>
             </div>
-            
-<!--                 <progress id="progressbar" max="100" value="{{ progressval }}"> </progress>
+
+            <!--                 <progress id="progressbar" max="100" value="{{ progressval }}"> </progress>
                 <div id="progressbarlabel">{{ progressval }} %</div> -->
 
         </div>
