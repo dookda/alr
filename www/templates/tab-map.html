@@ -2,9 +2,9 @@
     <ion-content>
         <ng-map class="map" center="[{{data.lat}}, {{data.lng}}]" zoom="14" map-type-control="true">
             <overlay-map-type object="imageMapType" init-method="push">
-                <marker position="[{{data.lat}}, {{data.lng}}]" draggable=true on-dragend="getCurrentLocation()"></marker>
+                <marker position="[{{data.lat}}, {{data.lng}}]" draggable=true on-dragend="getCurrentLocation();"></marker>
         </ng-map>
-
+        <!-- <ion-spinner icon="android"></ion-spinner> -->
         <div class="button-bar">
             <a class="button" ng-click="bClick(1); byAdd=1; byXY=0; byParcel=0" ng-class="{'button-positive':var==1}">
                 <h5>ค้นหาจาก<p>ที่อยู่</h5>
