@@ -8,5 +8,7 @@
     "!www/lib/**/*",
     "!www/**/*.map"
   ],
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }

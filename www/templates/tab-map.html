@@ -1,104 +1,43 @@
 <ion-view view-title="Smart Farmer">
-    <ion-content>
-        <ng-map class="map" center="[{{data.lat}}, {{data.lng}}]" zoom="14" map-type-control="true">
-            <overlay-map-type object="imageMapType" init-method="push">
-                <marker position="[{{data.lat}}, {{data.lng}}]" draggable=true on-dragend="getCurrentLocation();"></marker>
-        </ng-map>
-        <!-- <ion-spinner icon="android"></ion-spinner> -->
-        <div class="button-bar">
-            <a class="button" ng-click="bClick(1); byAdd=1; byXY=0; byParcel=0" ng-class="{'button-positive':var==1}">
-                <h5>ค้นหาจาก<p>ที่อยู่</h5>
-            </a>
-            <a class="button" ng-click="bClick(2); byAdd=0; byXY=1; byParcel=0" ng-class="{'button-positive':var==2}">
-                <h5>ค้นหาจาก<p>ค่าพิกัด</h5>
-            </a>
-            <a class="button" ng-click="bClick(3); byAdd=0; byXY=0; byParcel=1" ng-class="{'button-positive':var==3}">
-                <h5>ค้นหาจาก<p>เลขแปลง</h5>
-            </a>
-        </div>
+  <ion-nav-buttons side="right">
+      
+    <button class="button button-icon ion-loop" ng-click="reload()"></button>
+    <button class="button button-icon ion-search" ng-click="openModal(1)"></button>    
+    <button class="button button-icon ion-earth" ng-click="openModal(2)"></button>      
+    <button class="button button-icon ion-document" ng-click="openModal(3)"></button>
+    <button class="button button-icon icon ion-pinpoint" ng-click="locate()"></button>
+  </ion-nav-buttons>
 
-        <div ng-if="byAdd">
-            <div class="row">
-                <div class="col">
-                    <label>จังหวัด: </label>
-                    <select class="item item-input item-select" ng-model="dat.prov" ng-options="p.prov_code as p.prov_nam_t for p in province" ng-change="getAmp();"></select>
-                </div>
-                <div class="col">
-                    <label>อำเภอ: </label>
-                    <select class="item item-input item-select" ng-model="dat.amp" ng-options="a.amp_code as a.amp_nam_t for a in amphoe" ng-change="getTam();"></select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label>ตำบล: </label>
-                    <select class="item item-input item-select" ng-model="dat.tam" ng-options="t.tam_code as t.tam_nam_t for t in tambon" ng-change="getVill();"></select>
-                </div>
-                <div class="col">
-                    <label>หมู่บ้าน: </label>
-                    <select class="item item-input item-select" ng-model="dat.vill" ng-options="v.vill_code as v.vill_nam_t for v in village" ng-change="getVillLocation();"></select>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" ng-if="byXY">
-            <div class="col">
-                ละติจูด:
-                <label class="item-input-wrapper">
-                    <input class="item-input-wrapper" type="number" ng-model="data.lat" />
-                </label>
-            </div>
-            <div class="col">
-                ลองจิจูด:
-                <label class="item-input-wrapper">
-                    <input class="item-input-wrapper" type="number" ng-model="data.lng" />
-                </label>
-            </div>
-        </div>
-
-        <div class="row" ng-if="byParcel">
-            <div class="col">
-                เลขที่ดิน:
-                <label class="item-input-wrapper">
-                    <input class="item-input-wrapper" type="text" ng-model="dat.plang" ng-required="true"/>
-                </label>
-            </div>
-            <div class="col">
-                เลขระวาง:
-                <label class="item-input-wrapper">
-                    <input class="item-input-wrapper" type="text" ng-model="dat.rawang" ng-change="findRawang(dat.plang, dat.rawang)"/>
-                </label>
-            </div>
-        </div>
-
-
-        <ion-list>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showQuestion()">
-                <img ng-src="img/lamp.png">
-                <h2>กรอกข้อมูลรายแปลง</h2>
-                <p>บันทึกสถานภาพของแปลงและการใช้ที่ดิน</p>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showDetail()">
-                <img ng-src="img/home.png">
-                <h2>ข้อมูลแปลง {{alrcode}}</h2>
-                <!-- <p>{{data.lat | number:4}} , {{data.lng | number:4}} </p> -->
-                <p>คุณสมบัติของแปลงที่ดิน</p>
-                <!-- <p>เลขแปลง: {{alrcode}}</p> -->
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showCWRchart()">
-                <img ng-src="img/crop.png">
-                <h2>เช็คงบดุลน้ำ</h2>
-                <p>ประเมินการขาดน้ำของพืชที่เพาะปลูก</p>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showGMP()">
-                <img ng-src="img/lamp.png">
-                <h2>ประเมิน GAP</h2>
-                <p>ประเมินความปลอดภัย แหล่งน้ำ และพื้นที่เพาะปลูก</p>
-                <i class="icon ion-chevron-right icon-accessory"></i>
-            </ion-item>
-            </label>
-        </ion-list>
-    </ion-content>
+  <ion-content>
+    <leaflet lf-center="center" layers="layers" markers="markers" width="100%" height="50%"></leaflet>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showQuestion()">
+        <img ng-src="img/crop.png">
+        <h2>กรอกข้อมูลรายแปลง</h2>
+        <p>บันทึกสถานภาพของแปลงและการใช้ที่ดิน</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showDetail()">
+        <img ng-src="img/home.png">
+        <h2>ข้อมูลแปลง {{alrcode}}</h2>
+        <!-- <p>{{data.lat | number:4}} , {{data.lng | number:4}} </p> -->
+        <p>คุณสมบัติของแปลงที่ดิน</p>
+        <!-- <p>เลขแปลง: {{alrcode}}</p> -->
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showCWRchart()">
+        <img ng-src="img/climate.png">
+        <h2>เช็คงบดุลน้ำ</h2>
+        <p>ประเมินการขาดน้ำของพืชที่เพาะปลูก</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-click="showGMP()">
+        <img ng-src="img/lamp.png">
+        <h2>ประเมิน GAP</h2>
+        <p>ประเมินความปลอดภัย แหล่งน้ำ และพื้นที่เพาะปลูก</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      </label>
+    </ion-list>
+  </ion-content>
 </ion-view>

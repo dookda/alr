@@ -1,0 +1,32 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header">
+    <h1 class="title">เลือกจากค่าพิกัด</h1>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+
+    <div class="padding">
+      <div class="row">
+        <div class="col">
+            ลองจิจูด:
+          <label class="item-input-wrapper">
+            <input class="item-input-wrapper" type="number" placeholder='100.19' ng-model="lat" ng-required="true"/>
+          </label>
+        </div>
+        <div class="col">
+            ละติจูด:
+          <label class="item-input-wrapper">
+            <input class="item-input-wrapper" type="number" placeholder='16.74' ng-model="lng" ng-required="true"/>
+          </label>
+        </div>
+      </div>
+
+      <p></p>
+      <div class="button-bar">
+        <a class="button button-positive" ng-click="findXY(lat, lng)">ค้นหา</a>
+        <a class="button button-dark" ng-click="closeModal(2)">ยกเลิก</a>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-modal-view>

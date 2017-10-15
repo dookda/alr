@@ -1,0 +1,32 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header">
+    <h1 class="title">เลือกจากหมายเลขที่ดิน</h1>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+
+    <div class="padding">
+            <div class="row">
+                    <div class="col">
+                      เลขที่ดิน:
+                      <label class="item-input-wrapper">
+                        <input class="item-input-wrapper" type="text" ng-model="plang" ng-required="true"/>
+                      </label>
+                    </div>
+                    <div class="col">
+                      เลขระวาง:
+                      <label class="item-input-wrapper">
+                        <input class="item-input-wrapper" type="text" ng-model="rawang"/>
+                      </label>
+                    </div>
+                  </div>
+
+      <p></p>
+      <div class="button-bar">
+        <a class="button button-positive" ng-click="findRawang(plang, rawang)">ค้นหา</a>
+        <a class="button button-dark" ng-click="closeModal(2)">ยกเลิก</a>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-modal-view>

@@ -1,0 +1,40 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-header">
+        <h1 class="title">เลือกจากขอบเขตการปกครอง</h1>
+    </ion-header-bar>
+
+    <ion-content class="padding">
+
+        <div class="padding">
+            <label class="item item-input item-select">
+                <div class = "input-label">จังหวัด:</div>	
+                <select ng-model="dat.prov" ng-options="p.prov_code as p.prov_nam_t for p in province" ng-change="getAmp();"></select>
+            </label>
+
+            <p></p>
+            <label class="item item-input item-select">
+                <div class = "input-label">อำเภอ:</div>	
+                <select ng-model="dat.amp" ng-options="a.amp_code as a.amp_nam_t for a in amphoe" ng-change="getTam();"></select>
+            </label>
+
+            <p></p>
+            <label class="item item-input item-select">
+                <div class = "input-label">ตำบล:</div>	
+                <select ng-model="dat.tam" ng-options="t.tam_code as t.tam_nam_t for t in tambon" ng-change="getVill();"></select>
+            </label>
+
+            <p></p>
+            <label class="item item-input item-select">
+                <div class = "input-label">หมู่บ้าน:</div>	
+                <select ng-model="dat.vill" ng-options="v.vill_code as v.vill_nam_t for v in village" ng-change="getVillLocation(); modal.hide();"></select>
+            </label>
+
+            <p></p>
+            <div class="button-bar">
+                <a class="button button-positive" ng-click="closeModal(1)">ค้นหา</a>
+                <a class="button button-dark" ng-click="closeModal(1)">ยกเลิก</a>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-modal-view>

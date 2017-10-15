@@ -1,6 +1,16 @@
-angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
+angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
 
-  .controller('MapCtrl', function ($scope, $ionicLoading, NgMap, $state, MapService, PlaceService, $timeout, $rootScope, $http) {
+  .controller('MapCtrl', function ($scope,
+    $ionicLoading,
+    $ionicModal,
+    $window,
+    $state,
+    MapService,
+    PlaceService,
+    $timeout,
+    $http,
+    $cordovaGeolocation
+  ) {
 
     $scope.loading = function () {
       $ionicLoading.show({
@@ -12,56 +22,99 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
       $ionicLoading.hide();
     };
 
-    $scope.loading(); 
+    $scope.reload = function () {
+      $window.location.reload();
+    };
+
+    $scope.loading();
 
     //update data
     $scope.updateData = function () {
-      //var link = 'http://map.nu.ac.th/alr-map/mobileInsertOuestion.php';
       var lnk = url + '/alr-map/mobile_query_cwr_now.php';
-      //$http.post(link, {username : $scope.data.farmer_fname})
       $http.post(lnk)
         .then(function (res) {
-            $scope.hide ();
-            console.log(res.data);
+          $scope.hide();
+          console.log(res.data);
         });
     };
     $timeout(function () {
       $scope.updateData();
     }, 550);
 
-    var vm = this;
-    NgMap.getMap().then(function (map) {
-      vm.map = map;
-    });
-
-    $scope.init = function () {
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        //$scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        $scope.data = {
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        };
-        MapService.selectedLatlon = $scope.data;
-      }, function (error) {
-        alert('Unable to get location: ' + error.message);
-      });
-    };
-    $scope.init();
-
-    $scope.getCurrentLocation = function (event) {
-      $scope.data = {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng()
-      };
-
-      MapService.selectedLatlon = $scope.data;
-      $scope.loadParcel($scope.data.lng, $scope.data.lat);     
+    //leaflet
+    $scope.center = {
+      lat: 16.426,
+      lng: 99.760,
+      zoom: 7
     };
 
-    //////// find by location   
-    $scope.bClick = function (num) {
-      $scope.var = num;
-    }
+    $scope.markers = {};
+
+    $scope.layers = {
+      baselayers: {
+        googleTerrain: {
+          name: 'Google Terrain',
+          layerType: 'TERRAIN',
+          type: 'google'
+        },
+        googleHybrid: {
+          name: 'Google Hybrid',
+          layerType: 'HYBRID',
+          type: 'google'
+        },
+        googleRoadmap: {
+          name: 'Google Streets',
+          layerType: 'ROADMAP',
+          type: 'google'
+        }
+      },
+      overlays: {
+        wms: {
+          name: 'แปลงที่ดิน ส.ป.ก.',
+          type: 'wms',
+          visible: true,
+          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:alr_parcel_query',
+            format: 'image/png',
+            transparent: true
+          }
+        },
+        tam: {
+          name: 'ขอบเขตตำบล',
+          type: 'wms',
+          visible: true,
+          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:ln9p_tam',
+            format: 'image/png',
+            transparent: true
+          }
+        },
+        amp: {
+          name: 'ขอบเขตอำเภอ',
+          type: 'wms',
+          visible: true,
+          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:ln9p_amp',
+            format: 'image/png',
+            transparent: true
+          }
+        },
+        prov: {
+          name: 'ขอบเขตจังหวัด',
+          type: 'wms',
+          visible: true,
+          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:ln9p_prov',
+            format: 'image/png',
+            transparent: true
+          }
+        }
+      }
+    };
 
     // get everything
     $scope.dat = {
@@ -86,7 +139,7 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
           $scope.tambon = [];
           $scope.village = [];
         });
-      $scope.findLocation("province", $scope.dat.prov);
+      $scope.findLocation("province", $scope.dat.prov, 8);
     };
 
     $scope.getTam = function () {
@@ -95,107 +148,171 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
           $scope.tambon = response.data;
           $scope.village = [];
         });
-      $scope.findLocation("amphoe", $scope.dat.amp);
+      $scope.findLocation("amphoe", $scope.dat.amp, 10);
     };
 
     $scope.getVill = function () {
       PlaceService.getVill($scope.dat.tam)
         .then(function (response) {
           $scope.village = response.data;
+          console.log(response.data);
         })
-      $scope.findLocation("tambon", $scope.dat.tam);
+      $scope.findLocation("tambon", $scope.dat.tam, 13);
     };
 
     $scope.getVillLocation = function () {
-      $scope.findLocation("village", $scope.dat.vill);
-    }
-
-    $scope.findLocation = function (xplace, xcode) {
-      PlaceService.getLocation(xplace, xcode)
-        .then(function (response) {
-          $scope.data = {
-            lat: response.data[0].c_y,
-            lng: response.data[0].c_x
-          };
-        })
-      // $scope.init();
-    }
+      $scope.findLocation("village", $scope.dat.vill, 15);
+    };
 
     //////// find by rawang
     $scope.findRawang = function (xplang, xrawang) {
       PlaceService.getRawang(xplang, xrawang)
         .then(function (response) {
-          $scope.data = {
-            lat: response.data[0].c_y,
-            lng: response.data[0].c_x
-          };
-          console.log(response.data[0].c_x);
+          lat = parseFloat(response.data[0].c_y);
+          lng = parseFloat(response.data[0].c_x);
+          $scope.loadParcel(lng, lat);
+          $scope.calMarker(lng, lat);
+          $scope.calCenter(lng, lat, parseInt(15));
+          $scope.closeModal(2);
         })
+    };
+
+    $scope.findLocation = function (xplace, xcode, zoom) {
+      PlaceService.getLocation(xplace, xcode)
+        .then(function (response) {
+          var lat = parseFloat(response.data[0].c_y);
+          var lng = parseFloat(response.data[0].c_x);
+          $scope.loadParcel(lng, lat);
+          $scope.calMarker(lng, lat);
+          $scope.calCenter(lng, lat, zoom);
+        })
+    };
+
+    $scope.findXY = function (lng, lat) { 
+      $scope.loadParcel(lng, lat);       
+      $scope.calMarker(lng, lat);
+      $scope.calCenter(lng, lat, parseInt(15));
+      $scope.closeModal(2);
     }
 
-    var alrlyr = new google.maps.ImageMapType({
-      getTileUrl: function (coord, zoom) {
-        // Compose URL for overlay tile
-        //vm.map = map;
+    $scope.calCenter = function (lng, lat, zoom) {
+      // set center 
+      $scope.center.lat = lat;
+      $scope.center.lng = lng;
+      $scope.center.zoom = zoom;
+    };
 
-        var s = Math.pow(2, zoom);
-        var twidth = 256;
-        var theight = 256;
+    $scope.calMarker = function (lng, lat) {
+      $scope.markers = {};
+      // set marker
+      $scope.markers = {
+        m1: {
+          lat: lat,
+          lng: lng,
+          //message: "ตำแหน่งของคุณ",
+          focus: true,
+          draggable: true
+        }
+      }
+      //console.log($scope.markers);
+    };
 
-        //latlng bounds of the 4 corners of the google tile
-        //Note the coord passed in represents the top left hand (NW) corner of the tile.
-        var gBl = vm.map.getProjection().fromPointToLatLng(
-          new google.maps.Point(coord.x * twidth / s, (coord.y + 1) * theight / s)); // bottom left / SW
-        var gTr = vm.map.getProjection().fromPointToLatLng(
-          new google.maps.Point((coord.x + 1) * twidth / s, coord.y * theight / s)); // top right / NE
-
-        // Bounding box coords for tile in WMS pre-1.3 format (x,y)
-        var bbox = gBl.lng() + "," + gBl.lat() + "," + gTr.lng() + "," + gTr.lat();
-
-        //base WMS URL
-        var lnk = url + '/gs-alr2/alr/wms';
-        lnk += "?service=WMS"; //WMS service
-        lnk += "&version=1.1.0"; //WMS version 
-        lnk += "&request=GetMap"; //WMS operation
-        lnk += "&layers=alr:alr_parcel_query"; //WMS layers to draw
-        lnk += "&styles="; //use default style
-        lnk += "&format=image/png"; //image format
-        lnk += "&TRANSPARENT=TRUE"; //only draw areas where we have data
-        lnk += "&srs=EPSG:4326"; //projection WGS84
-        lnk += "&bbox=" + bbox; //set bounding box for tile
-        lnk += "&width=256"; //tile size used by google
-        lnk += "&height=256";
-        //url += "&tiled=true";
-        //console.log(url)
-        return lnk; //return WMS URL for the tile  
-      }, //getTileURL
-
-      tileSize: new google.maps.Size(256, 256),
-      opacity: 0.85,
-      isPng: true
-    });
-
-    $rootScope.imageMapType = alrlyr;
-
-    $scope.loadParcel = function (lon, lat) {
+    $scope.loadParcel = function (lng, lat) {
       //console.log(da);
-      MapService.loadParcel(lon, lat)
+      MapService.loadParcel(lng, lat)
         .success(function (data) {
-          //$scope.parcel = data.features[0].properties;
+          $scope.parcel = data.features[0].properties;
           $scope.alrcode = data.features[0].properties.alrcode;
+          //console.log(data);
 
           if ($scope.alrcode != null) {
-            console.log($scope.alrcode);
-
+            //console.log($scope.alrcode);
             MapService.selectedParcel = data.features[0].properties;
           } else {
             console.log('wang')
           }
+        })
+    };
 
-        })
-        .error(function (error) {
-          console.error("yahoooo error");
-        })
+    // getCurrentLocation    
+    $scope.locate = function () {
+      var posOptions = {
+        timeout: 10000,
+        enableHighAccuracy: true
+      };
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (pos) {
+
+          $scope.calCenter(pos.coords.longitude, pos.coords.latitude, 15);
+          $scope.calMarker(pos.coords.longitude, pos.coords.latitude);
+          $scope.loadParcel(pos.coords.longitude, pos.coords.latitude);
+
+          // share location & get feature data
+          $scope.data = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+          };
+          MapService.selectedLatlon = $scope.data;
+        });
+    };
+
+    $scope.$on("leafletDirectiveMarker.dragend", function (event, args) {
+      // share location & get feature data
+      $scope.data = {
+        lat: args.model.lat,
+        lng: args.model.lng
+      };
+      MapService.selectedLatlon = $scope.data;
+      $scope.loadParcel($scope.data.lng, $scope.data.lat);
+      $scope.calCenter($scope.data.lng, $scope.data.lat, 15);
+    });
+
+    // modal
+    $ionicModal.fromTemplateUrl('templates/modal.html', {
+      id: 1,
+      scope: $scope,
+      backdropClickToClose: true,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal1 = modal;
+    });
+
+    $ionicModal.fromTemplateUrl('templates/modal-xy.html', {
+      id: 2,
+      scope: $scope,
+      backdropClickToClose: true,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal2 = modal;
+    });
+
+    $ionicModal.fromTemplateUrl('templates/modal-rawang.html', {
+      id: 3,
+      scope: $scope,
+      backdropClickToClose: true,
+      animation: 'slide-in-up'
+    }).then(function (modal) {
+      $scope.modal3 = modal;
+    });
+
+    $scope.openModal = function (index) {
+      if (index == 1) {
+        $scope.modal1.show();
+      } else if (index == 2) {
+        $scope.modal2.show();
+      } else {
+        $scope.modal3.show()
+      }
+    };
+
+    $scope.closeModal = function (index) {
+      if (index == 1) {
+        $scope.modal1.hide();
+      } else {
+        $scope.modal2.hide();
+        $scope.modal3.hide();
+      }
     };
 
     $scope.showDetail = function () {
@@ -237,9 +354,6 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
 
   .controller('CwrCtrl', function ($scope,
     MapService,
-    //$http,
-    //$state,
-    //$timeout,
     $cordovaCamera,
     $cordovaFile,
     $cordovaFileTransfer,
@@ -713,5 +827,52 @@ angular.module('starter.controllers', ['ngMap', 'chart.js', 'ngCordova'])
   })
 
   .controller('MapSumCtrl', function ($scope) {
+    angular.extend($scope, {
+      center: {
+        lat: 39,
+        lng: -100,
+        zoom: 4
+      },
+      layers: {
+        baselayers: {
+          xyz: {
+            name: 'OpenStreetMap (XYZ)',
+            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            type: 'xyz'
+          },
+          googleTerrain: {
+            name: 'Google Terrain',
+            layerType: 'TERRAIN',
+            type: 'google'
+          },
+          googleHybrid: {
+            name: 'Google Hybrid',
+            layerType: 'HYBRID',
+            type: 'google'
+          },
+          googleRoadmap: {
+            name: 'Google Streets',
+            layerType: 'ROADMAP',
+            type: 'google'
+          }
+        },
+        overlays: {
+          wms: {
+            name: 'แปลงที่ดิน ส.ป.ก.',
+            type: 'wms',
+            visible: true,
+            url: url + "/gs-alr2/alr/ows?",
+            layerParams: {
+              layers: 'alr:ln9p_prov',
+              format: 'image/png',
+              transparent: true
+            }
+          }
+        }
+      }
+    });
 
+    // $scope.changeTiles = function (tiles) {
+    //   $scope.tiles = tilesDict[tiles];
+    // };
   });
