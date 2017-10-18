@@ -1,0 +1,54 @@
+<ion-view view-title="แผนที่ความต้องการน้ำ">
+    <ion-content>
+        <div class="padding list">
+            <!-- รหัสแปลง :
+            <h3>{{parcel.alrcode}}</h3> {{parcel.active_owner}}
+            <ul class="list">
+                <li class="item item-input item-stacked-label">
+                    <span class="input-label">ตำแแหน่งแปลง สปก.</span>
+                    <p ng-bind="'lat: '+(mapData.lat | number:5)+ '  long: ' +(mapData.lng | number:5)">
+                        <p ng-bind="(parcel.tam_nam_t)+' '+(parcel.amp_nam_t)+' '+(parcel.prov_nam_t)">
+                </li>
+            </ul> -->
+            <h4>แผนที่ความต้องการน้ำสัปดาห์ปัจจุบัน</h4>
+            <ion-list >
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('cpar');" >
+                    <i class="icon ion-waterdrop"></i> ระดับรายแปลง
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('ctam');">
+                    <i class="icon ion-waterdrop"></i> ระดับตำบล
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('camp');">
+                    <i class="icon ion-waterdrop"></i> ระดับอำเภอ
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('cpro');">
+                    <i class="icon ion-waterdrop"></i> ระดับจังหวัด
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+            </ion-list>
+            <h4>แผนที่ความต้องการน้ำรวมทั้งปี</h4>
+            <ion-list >
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('tpar');" >
+                    <i class="icon ion-waterdrop"></i> ระดับรายแปลง
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('ttam');">
+                    <i class="icon ion-waterdrop"></i> ระดับตำบล
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('tamp');">
+                    <i class="icon ion-waterdrop"></i> ระดับอำเภอ
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+                <ion-item class="item item-icon-left item-icon-right" ng-click="mapLyr('tpro');">
+                    <i class="icon ion-waterdrop"></i> ระดับจังหวัด
+                    <i class="icon ion-chevron-right icon-accessory"></i>
+                </ion-item>
+            </ion-list>
+            
+        </div>
+    </ion-content>
+</ion-view>

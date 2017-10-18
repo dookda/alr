@@ -5,6 +5,8 @@ angular.module('starter.services', [])
 
 .service('MapService', function($http){
   return{ 
+    initCenter:{},
+    initLyr:{},  
     selectedLatlon:{}, 
     selectedParcel:{},
     //endPointUrl: 'http://localhost/myapi/news',

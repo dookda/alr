@@ -74,6 +74,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
     })
 
+    .state('tab.map-list', {
+        url: '/map-list',
+        views: {
+            'tab-map': {
+                templateUrl: 'templates/map-list.html',
+                controller: 'MapListCtrl'
+            }
+        }
+    })
+
     .state('tab.map-detail', {
         url: '/map-detail',
         views: {

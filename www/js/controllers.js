@@ -48,6 +48,8 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
       zoom: 7
     };
 
+    MapService.initCenter = $scope.center;
+
     $scope.markers = {};
 
     $scope.layers = {
@@ -73,18 +75,29 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
           name: 'แปลงที่ดิน ส.ป.ก.',
           type: 'wms',
           visible: true,
-          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          url: url + "/gs-alr2/alr/ows?",
           layerParams: {
             layers: 'alr:alr_parcel_query',
             format: 'image/png',
             transparent: true
           }
         },
+        // vill: {
+        //   name: 'หมู่บ้าน',
+        //   type: 'wms',
+        //   visible: true,
+        //   url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+        //   layerParams: {
+        //     layers: 'alr:ln9p_vill',
+        //     format: 'image/png',
+        //     transparent: true
+        //   }
+        // },
         tam: {
           name: 'ขอบเขตตำบล',
           type: 'wms',
           visible: true,
-          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          url: url + "/gs-alr2/alr/ows?",
           layerParams: {
             layers: 'alr:ln9p_tam',
             format: 'image/png',
@@ -95,7 +108,7 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
           name: 'ขอบเขตอำเภอ',
           type: 'wms',
           visible: true,
-          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          url: url + "/gs-alr2/alr/ows?",
           layerParams: {
             layers: 'alr:ln9p_amp',
             format: 'image/png',
@@ -106,7 +119,7 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
           name: 'ขอบเขตจังหวัด',
           type: 'wms',
           visible: true,
-          url: "http://map.nu.ac.th/gs-alr2/alr/ows?",
+          url: url + "/gs-alr2/alr/ows?",
           layerParams: {
             layers: 'alr:ln9p_prov',
             format: 'image/png',
@@ -188,8 +201,8 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
         })
     };
 
-    $scope.findXY = function (lng, lat) { 
-      $scope.loadParcel(lng, lat);       
+    $scope.findXY = function (lng, lat) {
+      $scope.loadParcel(lng, lat);
       $scope.calMarker(lng, lat);
       $scope.calCenter(lng, lat, parseInt(15));
       $scope.closeModal(2);
@@ -342,6 +355,12 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
     $scope.showCWRchart = function () {
       $timeout(function () {
         $state.go('tab.map-cwrchart');
+      }, 700);
+    };
+
+    $scope.showMapSum = function () {
+      $timeout(function () {
+        $state.go('tab.map-list');
       }, 700);
     };
   })
@@ -826,53 +845,152 @@ angular.module('starter.controllers', ['chart.js', 'ngCordova', 'ui-leaflet'])
     $scope.progressval = 10;
   })
 
-  .controller('MapSumCtrl', function ($scope) {
-    angular.extend($scope, {
-      center: {
-        lat: 39,
-        lng: -100,
-        zoom: 4
+  .controller('MapListCtrl', function ($scope, $timeout, $state, MapService) {
+
+    $scope.mapLyr = function (x) {
+      if (x == 'cpar') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_current_wk_parcel',
+          name: 'ความต้องการน้ำระดับรายแปลง'
+        };
+      } else if (x == 'ctam') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_current_wk_tam',
+          name: 'ความต้องการน้ำระดับตำบล'
+        };
+      } else if (x == 'camp') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_current_wk_amp',
+          name: 'ความต้องการน้ำระดับอำเภอ'
+        };
+      } else if (x == 'cpro') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_current_wk_prov',
+          name: 'ความต้องการน้ำระดับจังหวัด'
+        };
+      } else if (x == 'tpar') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_total_parcel',
+          name: 'ความต้องการน้ำระดับรายแปลง'
+        };
+      } else if (x == 'ttam') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_total_tam',
+          name: 'ความต้องการน้ำระดับตำบล'
+        };
+      } else if (x == 'tamp') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_total_amp',
+          name: 'ความต้องการน้ำระดับอำเภอ'
+        };
+      } else if (x == 'tpro') {
+        var lyr = {
+          lyr: 'alr:alr_sum_cwr_total_prov',
+          name: 'ความต้องการน้ำระดับจังหวัด'
+        };
+      }
+
+      MapService.initLyr = lyr;
+
+      $timeout(function () {
+        $state.go('tab.map-sum');
+      }, 650);
+    };
+
+  })
+
+  .controller('MapSumCtrl', function ($scope, MapService) {
+    $scope.center = MapService.initCenter;
+    var lyr = MapService.initLyr;
+    console.log($scope.center);
+    console.log(lyr);
+
+    $scope.center = $scope.center;
+    $scope.layers = {
+      baselayers: {
+        // xyz: {
+        //   name: 'OpenStreetMap (XYZ)',
+        //   url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        //   type: 'xyz',
+        //   zIndex: 1
+        // },
+        googleTerrain: {
+          name: 'Google Terrain',
+          layerType: 'TERRAIN',
+          type: 'google'
+        }
+        // ,
+        // googleHybrid: {
+        //   name: 'Google Hybrid',
+        //   layerType: 'HYBRID',
+        //   type: 'google',
+        //   zIndex: 1
+        // },
+        // googleRoadmap: {
+        //   name: 'Google Streets',
+        //   layerType: 'ROADMAP',
+        //   type: 'google',
+        //   zIndex: 1
+        // }
       },
-      layers: {
-        baselayers: {
-          xyz: {
-            name: 'OpenStreetMap (XYZ)',
-            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            type: 'xyz'
+      overlays: {
+        cwr: {
+          name: lyr.name,
+          type: 'wms',
+          visible: true,
+          url: url + "/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: lyr.lyr,
+            format: 'image/png',
+            transparent: true
           },
-          googleTerrain: {
-            name: 'Google Terrain',
-            layerType: 'TERRAIN',
-            type: 'google'
-          },
-          googleHybrid: {
-            name: 'Google Hybrid',
-            layerType: 'HYBRID',
-            type: 'google'
-          },
-          googleRoadmap: {
-            name: 'Google Streets',
-            layerType: 'ROADMAP',
-            type: 'google'
-          }
+          zIndex: 1
         },
-        overlays: {
-          wms: {
-            name: 'แปลงที่ดิน ส.ป.ก.',
-            type: 'wms',
-            visible: true,
-            url: url + "/gs-alr2/alr/ows?",
-            layerParams: {
-              layers: 'alr:ln9p_prov',
-              format: 'image/png',
-              transparent: true
-            }
-          }
+        tam: {
+          name: 'ขอบเขตตำบล',
+          type: 'wms',
+          visible: true,
+          url: url + "/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:ln9p_tam',
+            format: 'image/png',
+            transparent: true
+          },
+          zIndex: 2
+        },
+        amp: {
+          name: 'ขอบเขตอำเภอ',
+          type: 'wms',
+          visible: true,
+          url: url + "/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:ln9p_amp',
+            format: 'image/png',
+            transparent: true
+          },
+          zIndex: 3
+        },
+        prov: {
+          name: 'ขอบเขตจังหวัด',
+          type: 'wms',
+          visible: true,
+          url: url + "/gs-alr2/alr/ows?",
+          layerParams: {
+            layers: 'alr:ln9p_prov',
+            format: 'image/png',
+            transparent: true
+          },
+          zIndex: 4
         }
       }
-    });
+    };
 
-    // $scope.changeTiles = function (tiles) {
-    //   $scope.tiles = tilesDict[tiles];
-    // };
+    // fix baselayers change
+    $scope.$on('leafletDirectiveMap.baselayerchange', function (ev, layer) {
+      //console.log('base layer changed to %s', layer.leafletEvent.name);
+      angular.forEach($scope.layers.overlays, function (overlay) {
+          if (overlay.visible) overlay.doRefresh = true;
+      });
+  });
+
   });
